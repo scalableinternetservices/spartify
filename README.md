@@ -1,6 +1,13 @@
-# bespin
+# Spartify
 
-Welcome to Cloud City!
+Spartify is a crowd-voting app that allows users to create and join a party to vote for the next song in a queue.
+
+## Team
+
+| ![Andy](readme_img/andy.jpg) | ![Kathy](readme_img/kathy.jpg) | ![Rafael](readme_img/rafael.jpg) | ![Rohan](readme_img/rohan.jpg) |
+| :------------: | :------------: | :------------: | :------------: |
+| Andy Zeff | Kathy Daniels | Rafael Ning | Rohan Khajuria |
+| [@apzsfo](https://github.com/apzsfo) | [@danielskathyd](https://github.com/danielskathyd) | [@rning](https://github.com/rning) | [@Rohanator9000](https://github.com/Rohanator9000) |
 
 ## Dependencies
 
