@@ -11,81 +11,98 @@
 schema {
   query: Query
   mutation: Mutation
-  subscription: Subscription
+  # subscription: Subscription
 }
 
-type Query {
-  # Returns the logged-in user making the query, or null if anonymous.
-  self: User
+# type Subscription {
+#   surveyUpdates (surveyId: Int!): Survey
+# }
 
-  surveys: [Survey!]!
-  survey (surveyId: Int!): Survey
+type Query {
+  # Returns a Party if one exists with the partyName, and its optional password matches the optional partyPassword.
+  # Otherwise, null.
+  party (partyName: String!, partyPassword: String): Party
+
+  # Returns all Song sorted by song title.
+  songs: [Song!]!
 }
 
 type Mutation {
-  # Records an answer to a survey question presented in class.
-  answerSurvey (input: SurveyInput!): Boolean!
+  # Creates a Party with the optional partyPassword if one does not yet exist with the partyName.
+  # Returns that newly created Party, or null if a Party already exists with the partyName.
+  createParty (partyName: String!, partyPassword: String): Party
 
-  # Moves the survey to the next question (or starts it if it hasn't started). ADMIN only.
-  nextSurveyQuestion (surveyId: Int!): Survey
+  # Votes for a Song in the context of a Party.
+  # Returns the VotedSong if the voting was successful (partyId and songId must exist), or null if unsuccessful.
+  vote (partyId: Int!, songId: Int!): VotedSong
+
+  # Advances the CurrentSong of a Party to the next song, which is the VotedSong with the highest VotedSong.count
+  # out of all the VotedSong for the Party. If there is no VotedSong for the Party, the CurrentSong becomes null.
+  # Returns the Party if successful, or null if unsuccessful.
+  nextSong(partyId: Int!): Party
 }
 
-type Subscription {
-  surveyUpdates (surveyId: Int!): Survey
-}
-
-type User {
-  id: Int!
-  userType: UserType!
-  email: String!
-  name: String!
-}
-
-enum UserType { ADMIN, USER }
-
-type Survey {
+type Party  {
   id: Int!
 
-  # Pretty name for the survey.
+  # The name of this Party that was inputted by the party creator.
+  # Must be unique among all Party.
   name: String!
 
-  # True if the survey has started.
-  isStarted: Boolean!
+  # The plaintext password for this Party, or null if the Party creator did not specify a password.
+  password: String
 
-  # True if the survey has completed.
-  isCompleted: Boolean!
+  # The time that the Party was last interacted with. ISO 8601 format for date and time in UTC.
+  latestTime: String!
 
-  # The current survey question, or null if the survey hasn't started.
-  currentQuestion: SurveyQuestion
+  # The currently playing Song, or null if:
+  # (1) this Party is new and no Song is playing yet, or
+  # (2) the queue was empty and the "next song" button was pressed.
+  currentSong: Song
 
-  # All the survey's questions, in presentation order.
-  questions: [SurveyQuestion]!
+  # All VotedSong for this Party in order of decreasing VotedSong.count.
+  votedSongs: [VotedSong!]!
+
+  # All PlayedSong for this Party in order of decreasing PlayedSong.seq.
+  playedSongs: [PlayedSong!]!
 }
 
-type SurveyQuestion {
+type VotedSong {
   id: Int!
 
-  # The prompt, e.g. "how long have you been programming".
-  prompt: String!
+  # The Party whose users made this VotedSong.
+  party: Party!
 
-  # The choices available if multiple choice, null if not multiple choice.
-  choices: [String!]
+  # The Song that this VotedSong is for.
+  song: Song!
 
-  # All answers received so far for the question.
-  answers: [SurveyAnswer!]!
-
-  # The Survey that this question is on.
-  survey: Survey!
+  # The count of votes for this VotedSong.
+  # Should always be >= 1, as a played song should have its VotedSong entry deleted.
+  count: Int!
 }
 
-type SurveyAnswer {
+type PlayedSong {
   id: Int!
-  answer: String!
-  question: SurveyQuestion!
+
+  # The Party that played this PlayedSong.
+  party: Party!
+
+  # The Song that was played.
+  song: Song!
+
+  # The sequence number of this PlayedSong, with each Party's song history sequency number starting from 0.
+  seq: Int!
 }
 
-input SurveyInput {
-  questionId: Int!
-  answer: String!
-}
+type Song {
+  id: Int!
 
+  # The title of the Song.
+  title: String!
+
+  # The Song artist's name(s).
+  artist: String!
+
+  # The Song's album name, or null if this data is not available.
+  album: String
+}
