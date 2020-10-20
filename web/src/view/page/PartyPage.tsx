@@ -13,7 +13,7 @@ export function PartyPage(props: PartyPageProps) {
   return (
     <>
       <style>{'body { background-color: black; }'}</style>
-      <h1 style={{ color: 'white' }}>Kathy's Party</h1>
+      <h1 style={{ color: 'white' }}>{props.partyName}</h1>
     </>
   )
 }
