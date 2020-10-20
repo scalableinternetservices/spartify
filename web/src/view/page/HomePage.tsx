@@ -94,7 +94,7 @@ export function HomePage(props: HomePageProps) {
         }
       }}
     >
-      <p style={{ color: 'c6dad9' }}>join a party</p>
+      <p style={{ color: '#c6dad9' }}>join a party</p>
     </Button>
   )
 
