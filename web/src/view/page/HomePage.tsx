@@ -8,7 +8,7 @@ import { getPath, Route } from '../nav/route'
 // Props will take in a path and a function which sets the party name in AppBody
 interface HomePageProps {
   path: string
-  partyNameHandler: any
+  partyNameHandler: (arg0: string) => void
 }
 
 // Constant height offset between buttons

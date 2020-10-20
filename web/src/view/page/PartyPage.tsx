@@ -9,7 +9,6 @@ interface PartyPageProps {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function PartyPage(props: PartyPageProps) {
-  console.log(props)
   return (
     <>
       <style>{'body { background-color: black; }'}</style>
