@@ -37,7 +37,9 @@ type Mutation {
   vote (partyId: Int!, songId: Int!): VotedSong
 
   # Advances the CurrentSong of a Party to the next song, which is the VotedSong with the highest VotedSong.count
-  # out of all the VotedSong for the Party. If there is no VotedSong for the Party, the CurrentSong becomes null.
+  # out of all the VotedSong for the Party. This causes that VotedSong to be deleted, and the CurrentSong prior to
+  # calling the mutation is used to create a PlayedSong for the Party. If there is no VotedSong for the Party, the
+  # CurrentSong becomes null.
   # Returns the Party if successful, or null if unsuccessful.
   nextSong(partyId: Int!): Party
 }
