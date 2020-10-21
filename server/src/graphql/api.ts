@@ -1,11 +1,8 @@
 import { readFileSync } from 'fs'
 import { PubSub } from 'graphql-yoga'
 import path from 'path'
-import { check } from '../../../common/src/util'
-import { Survey } from '../entities/Survey'
-import { SurveyAnswer } from '../entities/SurveyAnswer'
-import { SurveyQuestion } from '../entities/SurveyQuestion'
-import { User } from '../entities/User'
+import { Party } from '../entities/Party'
+import { Song } from '../entities/Song'
 import { Resolvers } from './schema.types'
 
 export const pubsub = new PubSub()
@@ -16,46 +13,35 @@ export function getSchema() {
 }
 
 interface Context {
-  user: User | null
   request: Request
   response: Response
-  pubsub: PubSub
 }
 
 export const graphqlRoot: Resolvers<Context> = {
   Query: {
-    self: (_, args, ctx) => ctx.user,
-    survey: async (_, { surveyId }) => (await Survey.findOne({ where: { id: surveyId } })) || null,
-    surveys: () => Survey.find(),
+    party: async (_, { partyName, partyPassword }) => {
+      const fields = { name: partyName, password: partyPassword || undefined }
+      return (await Party.findOne(fields)) || null
+    },
+    songs: () => Song.find(),
   },
   Mutation: {
-    answerSurvey: async (_, { input }, ctx) => {
-      const { answer, questionId } = input
-      const question = check(await SurveyQuestion.findOne({ where: { id: questionId }, relations: ['survey'] }))
-
-      const surveyAnswer = new SurveyAnswer()
-      surveyAnswer.question = question
-      surveyAnswer.answer = answer
-      await surveyAnswer.save()
-
-      question.survey.currentQuestion?.answers.push(surveyAnswer)
-      ctx.pubsub.publish('SURVEY_UPDATE_' + question.survey.id, question.survey)
-
-      return true
+    vote: async (_, { partyId, songId }) => {
+      const party = await Party.findOne(partyId)
+      const song = await Song.findOne(songId)
+      if (party && song) {
+        return party.voteForSong(song)
+      } else {
+        return null
+      }
     },
-    nextSurveyQuestion: async (_, { surveyId }, ctx) => {
-      // check(ctx.user?.userType === UserType.Admin)
-      const survey = check(await Survey.findOne({ where: { id: surveyId } }))
-      survey.currQuestion = survey.currQuestion == null ? 0 : survey.currQuestion + 1
-      await survey.save()
-      ctx.pubsub.publish('SURVEY_UPDATE_' + surveyId, survey)
-      return survey
+    createParty: async (_, { partyName, partyPassword }) => {
+      return new Party(partyName, partyPassword || undefined)
     },
-  },
-  Subscription: {
-    surveyUpdates: {
-      subscribe: (_, { surveyId }, context) => context.pubsub.asyncIterator('SURVEY_UPDATE_' + surveyId),
-      resolve: (payload: any) => payload,
+    nextSong: async (_, { partyId }) => {
+      const party = await Party.findOne(partyId)
+      await party?.playNextSong()
+      return party
     },
   },
 }
