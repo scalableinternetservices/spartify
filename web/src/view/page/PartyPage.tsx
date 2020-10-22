@@ -1,8 +1,9 @@
 import { Grid, makeStyles, Paper } from '@material-ui/core'
 import * as React from 'react'
+import { CurrentSong } from './CurrentSong'
+import { PlayedSong } from './PlayedSong'
 import { Song } from './Song'
-
-// TODO: Implement party page
+import { VotedSong } from './VotedSong'
 
 interface PartyPageProps {
   partyName: string
@@ -44,20 +45,20 @@ export function PartyPage(props: PartyPageProps) {
   )
 
   const queue = (
-    <Paper className={classes.paper}>
-      <Song />
-      <Song />
-      <Song />
-      <Song />
+    <Paper className={classes.paper} style={{ backgroundColor: '434343' }}>
+      <VotedSong />
+      <VotedSong />
+      <VotedSong />
+      <VotedSong />
     </Paper>
   )
 
   const history = (
     <Paper className={classes.paper}>
-      <Song />
-      <Song />
-      <Song />
-      <Song />
+      <PlayedSong />
+      <PlayedSong />
+      <PlayedSong />
+      <PlayedSong />
     </Paper>
   )
 
@@ -68,12 +69,12 @@ export function PartyPage(props: PartyPageProps) {
 
       <Grid container style={{ marginTop: -90 }}>
         <Grid container style={{ paddingBottom: 40 }}>
-          <Grid item xs={8} className={classes.partyName}>
+          <Grid item xs={8} className={classes.partyName} style={{ paddingTop: 20 }}>
             {NAME}
           </Grid>
           <Grid item xs={4} className={classes.songListColumn}>
             Now Playing
-            <Song />
+            <CurrentSong />
           </Grid>
         </Grid>
 

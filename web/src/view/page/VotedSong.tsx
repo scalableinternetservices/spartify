@@ -1,10 +1,9 @@
-import { Button, Card, CardContent, Grid, makeStyles, Typography } from '@material-ui/core'
-import AddIcon from '@material-ui/icons/Add'
+import { Card, CardContent, Grid, makeStyles, Typography } from '@material-ui/core'
 import * as React from 'react'
 
 const useStyles = makeStyles({
   card: {
-    backgroundColor: '292929',
+    backgroundColor: 'FFFF',
     margin: 10,
     borderRadius: 10,
   },
@@ -22,20 +21,15 @@ const useStyles = makeStyles({
     fontSize: 12,
     color: '96A7A2',
   },
-  button: {
-    backgroundColor: 'ADCCCA',
-    borderRadius: 8,
-    padding: '3 8',
-    marginTop: 9,
-    textTransform: 'none',
+  votes: {
+    fontWeight: 500,
     fontSize: 14,
-    '&:hover': {
-      backgroundColor: '628280',
-    },
+    textAlign: 'right',
+    marginTop: 12,
   },
 })
 
-export function Song() {
+export function VotedSong() {
   const classes = useStyles()
 
   return (
@@ -53,11 +47,9 @@ export function Song() {
             </Typography>
           </Grid>
 
-          {/* Vote Button */}
-          <Grid item xs={2}>
-            <Button startIcon={<AddIcon />} className={classes.button}>
-              Vote
-            </Button>
+          {/* Votes */}
+          <Grid item xs={2} className={classes.votes}>
+            189 <br /> Votes
           </Grid>
         </Grid>
       </CardContent>
