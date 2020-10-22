@@ -10,8 +10,39 @@ interface PartyPageProps {
   path: string
 }
 
-const NAME = "Kathy's Party"
+// temporary placeholder data
+const songList = [
+  {
+    title: 'Trigger Of Love',
+    artist: 'JAWNY',
+  },
+  {
+    title: 'Winona',
+    artist: 'Miloe',
+  },
+  {
+    title: 'Sharpener',
+    artist: 'Cavetown',
+  },
+  {
+    title: 'UNBOUND',
+    artist: 'MICHELLE',
+  },
+  {
+    title: 'Wishful Thinking',
+    artist: 'BENEE',
+  },
+  {
+    title: 'Together',
+    artist: 'beabadoobee',
+  },
+  {
+    title: 'going out',
+    artist: 'ROLE MODEL',
+  },
+]
 
+// custom styling to override Material UI's default styles
 const useStyles = makeStyles({
   partyName: {
     color: '#5aaea9',
@@ -35,43 +66,45 @@ const useStyles = makeStyles({
 export function PartyPage(props: PartyPageProps) {
   const classes = useStyles()
 
+  // Song Library column - displays all available songs to vote for
   const library = (
     <Paper className={classes.paper}>
-      <Song />
-      <Song />
-      <Song />
-      <Song />
+      {songList.map((song, i) => (
+        <Song key={i} title={song.title} artist={song.artist} />
+      ))}
     </Paper>
   )
 
+  // Queue column - displays songs with votes in decreasing order
   const queue = (
     <Paper className={classes.paper} style={{ backgroundColor: '434343' }}>
-      <VotedSong />
-      <VotedSong />
-      <VotedSong />
-      <VotedSong />
+      {songList.map((song, i) => (
+        <VotedSong key={i} title={song.title} artist={song.artist} />
+      ))}
     </Paper>
   )
 
+  // Listening History column - displays previously played songs in the current party
   const history = (
     <Paper className={classes.paper}>
-      <PlayedSong />
-      <PlayedSong />
-      <PlayedSong />
-      <PlayedSong />
+      {songList.map((song, i) => (
+        <PlayedSong key={i} title={song.title} artist={song.artist} />
+      ))}
     </Paper>
   )
 
   return (
     <>
-      {/* Party Name */}
       <style>{'body { background-color: black; }'}</style>
 
       <Grid container style={{ marginTop: -90 }}>
         <Grid container style={{ paddingBottom: 40 }}>
+          {/* Party Name */}
           <Grid item xs={12} md={8} className={classes.partyName} style={{ paddingTop: 20 }}>
-            {NAME}
+            {props.partyName}
           </Grid>
+
+          {/* Current Playing Song */}
           <Grid item xs={12} md={4} className={classes.songListColumn}>
             Now Playing
             <CurrentSong />

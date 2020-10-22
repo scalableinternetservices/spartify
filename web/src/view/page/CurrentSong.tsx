@@ -2,6 +2,7 @@ import { Card, CardContent, Grid, IconButton, makeStyles, Typography } from '@ma
 import SkipNextIcon from '@material-ui/icons/SkipNext'
 import * as React from 'react'
 
+// custom styling to override Material UI's default styles
 const useStyles = makeStyles({
   card: {
     backgroundColor: '292929',
@@ -38,6 +39,11 @@ const useStyles = makeStyles({
 export function CurrentSong() {
   const classes = useStyles()
 
+  function nextSong() {
+    // TODO: implement skip song functionality
+    window.alert('Skipped song')
+  }
+
   return (
     <Card className={classes.card}>
       <CardContent className={classes.cardContent}>
@@ -55,7 +61,7 @@ export function CurrentSong() {
 
           {/* Next Button */}
           <Grid item xs={2}>
-            <IconButton className={classes.button}>
+            <IconButton className={classes.button} onClick={nextSong}>
               <SkipNextIcon />
             </IconButton>
           </Grid>

@@ -1,6 +1,12 @@
 import { Card, CardContent, Grid, makeStyles, Typography } from '@material-ui/core'
 import * as React from 'react'
 
+interface SongProps {
+  title: string
+  artist: string
+}
+
+// custom styling to override Material UI's default styles
 const useStyles = makeStyles({
   card: {
     backgroundColor: 'FFFF',
@@ -29,7 +35,7 @@ const useStyles = makeStyles({
   },
 })
 
-export function VotedSong() {
+export function VotedSong(props: SongProps) {
   const classes = useStyles()
 
   return (
@@ -39,9 +45,9 @@ export function VotedSong() {
           {/* Song Info */}
           <Grid item xs={10}>
             <Typography variant="body2" className={classes.songInfo}>
-              Artist Name
+              {props.artist}
             </Typography>
-            <Typography className={classes.songTitle}>Song Name</Typography>
+            <Typography className={classes.songTitle}>{props.title}</Typography>
             <Typography variant="body2" className={classes.songInfo}>
               Album Name
             </Typography>
