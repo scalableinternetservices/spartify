@@ -26,9 +26,10 @@ const useStyles = makeStyles({
     backgroundColor: 'ADCCCA',
     borderRadius: 8,
     padding: '3 8',
-    marginTop: 9,
+    marginTop: 10,
     textTransform: 'none',
     fontSize: 14,
+    float: 'right',
     '&:hover': {
       backgroundColor: '628280',
     },
@@ -43,7 +44,7 @@ export function Song() {
       <CardContent className={classes.cardContent}>
         <Grid container justify="flex-end">
           {/* Song Info */}
-          <Grid item xs={10}>
+          <Grid item xs={8} md={9}>
             <Typography variant="body2" className={classes.songInfo}>
               Artist Name
             </Typography>
@@ -54,7 +55,7 @@ export function Song() {
           </Grid>
 
           {/* Vote Button */}
-          <Grid item xs={2}>
+          <Grid item xs={4} md={3}>
             <Button startIcon={<AddIcon />} className={classes.button}>
               Vote
             </Button>

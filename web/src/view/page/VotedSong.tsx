@@ -47,7 +47,7 @@ export function VotedSong() {
             </Typography>
           </Grid>
 
-          {/* Votes */}
+          {/* Vote Count */}
           <Grid item xs={2} className={classes.votes}>
             189 <br /> Votes
           </Grid>

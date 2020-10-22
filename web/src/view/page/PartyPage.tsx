@@ -69,29 +69,29 @@ export function PartyPage(props: PartyPageProps) {
 
       <Grid container style={{ marginTop: -90 }}>
         <Grid container style={{ paddingBottom: 40 }}>
-          <Grid item xs={8} className={classes.partyName} style={{ paddingTop: 20 }}>
+          <Grid item xs={12} md={8} className={classes.partyName} style={{ paddingTop: 20 }}>
             {NAME}
           </Grid>
-          <Grid item xs={4} className={classes.songListColumn}>
+          <Grid item xs={12} md={4} className={classes.songListColumn}>
             Now Playing
             <CurrentSong />
           </Grid>
         </Grid>
 
         {/* Song Library */}
-        <Grid item xs={4} className={classes.songListColumn}>
+        <Grid item xs={12} md={4} className={classes.songListColumn}>
           Song Library
           {library}
         </Grid>
 
         {/* Queue */}
-        <Grid item xs={4} className={classes.songListColumn}>
+        <Grid item xs={12} md={4} className={classes.songListColumn}>
           Queue
           {queue}
         </Grid>
 
         {/* Listening History */}
-        <Grid item xs={4} className={classes.songListColumn}>
+        <Grid item xs={12} md={4} className={classes.songListColumn}>
           Listening History
           {history}
         </Grid>
