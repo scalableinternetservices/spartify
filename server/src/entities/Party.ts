@@ -21,7 +21,7 @@ export class Party extends BaseEntity {
   @Column()
   name: string
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'varchar' })
   password: string | null
 
   @UpdateDateColumn()
@@ -42,8 +42,6 @@ export class Party extends BaseEntity {
     this.name = name
     this.password = password || null
     this.currentSong = null
-    this.playedSongs = []
-    this.votedSongs = []
   }
 
   public async playNextSong() {
