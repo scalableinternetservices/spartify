@@ -1,2 +1,10 @@
-insert into `song` (`title`, `artist`, `album`) values ('Sample Name 1', 'Sample Artist 1', 'Sample Album 1');
-insert into `song` (`title`, `artist`) values ('Sample Title 2', 'Sample Artist 2');
+insert into `song` (`title`, `artist`, `album`) values ('Molly Girl', 'Lil Tecca', 'Molly Girl');
+insert into `song` (`title`, `artist`) values ('SNOWCONE', 'REI AMI');
+insert into `song` (`title`, `artist`, `album`) values ('hand crushed by a mallet', '100 gecs', '1000 gecs');
+insert into `song` (`title`, `artist`, `album`) values ('Honeypie', 'JAWNY', 'Honeypie');
+insert into `song` (`title`, `artist`, `album`) values ('Sweet', 'Bren Joy', 'Twenties');
+insert into `song` (`title`, `artist`, `album`) values ('Dreams', 'Aaron May', 'CHASE');
+insert into `song` (`title`, `artist`, `album`) values ('Gone', 'sober rob', 'RESET');
+insert into `song` (`title`, `artist`) values ('Hit', 'Kenny Mason');
+insert into `song` (`title`, `artist`, `album`) values ('Hollywood', 'Kota the Friend', 'FOTO');
+insert into `song` (`title`, `artist`, `album`) values ("i don't miss u", 'Caro', 'songs from 3am');
