@@ -12,6 +12,6 @@ export class Song extends BaseEntity {
   @Column()
   artist: string
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'varchar' })
   album: string | null
 }
