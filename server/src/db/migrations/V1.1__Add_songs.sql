@@ -8,3 +8,14 @@ insert into `song` (`title`, `artist`, `album`) values ('Gone', 'sober rob', 'RE
 insert into `song` (`title`, `artist`) values ('Hit', 'Kenny Mason');
 insert into `song` (`title`, `artist`, `album`) values ('Hollywood', 'Kota the Friend', 'FOTO');
 insert into `song` (`title`, `artist`, `album`) values ("i don't miss u", 'Caro', 'songs from 3am');
+insert into `song` (`title`, `artist`) values ('Go Wild', 'Friedberg');
+insert into `song` (`title`, `artist`) values ('500 Days of Summer', 'Grady');
+insert into `song` (`title`, `artist`, `album`) values ('sucks 4 u', 'Silver Sphere', 'yikes!');
+insert into `song` (`title`, `artist`, `album`) values ('Icing on the Cake', 'Grace Ives', '2nd');
+insert into `song` (`title`, `artist`, `album`) values ('Breathe', 'Catie Turner', 'The Sad Vegan');
+insert into `song` (`title`, `artist`, `album`) values ('Superfruit', 'Maude Latour', 'Starsick EP');
+insert into `song` (`title`, `artist`, `album`) values ('When U Loved Me', 'Hether', 'When U Loved Me');
+insert into `song` (`title`, `artist`, `album`) values ('Little Bit', 'Erika de Casier', 'Essentials');
+insert into `song` (`title`, `artist`, `album`) values ('Bubba', 'Jack Larsen', 'Mildew');
+insert into `song` (`title`, `artist`, `album`) values ('No More', 'Andrea Valle', 'No More');
+insert into `song` (`title`, `artist`, `album`) values ('Know You Bare', 'Andrea Valle', 'Lovergirl');
