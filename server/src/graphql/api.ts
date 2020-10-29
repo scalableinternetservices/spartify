@@ -19,10 +19,8 @@ interface Context {
 
 export const graphqlRoot: Resolvers<Context> = {
   Query: {
-    party: async (_, { partyName, partyPassword }) => {
-      const fields = { name: partyName, password: partyPassword || undefined }
-      return (await Party.findOne(fields)) || null
-    },
+    party: async (_, { partyName, partyPassword }) =>
+      (await Party.findOne({ name: partyName, password: partyPassword || undefined })) || null,
     songs: () => Song.find(),
   },
   Mutation: {
@@ -41,7 +39,11 @@ export const graphqlRoot: Resolvers<Context> = {
     nextSong: async (_, { partyId }) => {
       const party = await Party.findOne(partyId)
       await party?.playNextSong()
-      return party
+      return party || null
     },
+  },
+  // Rely on the resolver chain and async/partial resolution to perform the data conversion necessary for the API.
+  Party: {
+    latestTime: parent => parent.latestTime.toString(),
   },
 }

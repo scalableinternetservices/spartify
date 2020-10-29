@@ -1,6 +1,9 @@
 import { GraphQLResolveInfo } from 'graphql'
+import { Party as PartyModel } from '../entities/Party'
+import { VotedSong as VotedSongModel } from '../entities/VotedSong'
 export type Maybe<T> = T | null
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] }
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } &
   { [P in K]-?: NonNullable<T[P]> }
 /** All built-in and custom scalars, mapped to their actual values */
@@ -160,9 +163,9 @@ export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars['String']>
   Mutation: ResolverTypeWrapper<{}>
   Int: ResolverTypeWrapper<Scalars['Int']>
-  Party: ResolverTypeWrapper<Party>
-  VotedSong: ResolverTypeWrapper<VotedSong>
-  PlayedSong: ResolverTypeWrapper<PlayedSong>
+  Party: ResolverTypeWrapper<PartyModel>
+  VotedSong: ResolverTypeWrapper<VotedSongModel>
+  PlayedSong: ResolverTypeWrapper<Omit<PlayedSong, 'party'> & { party: ResolversTypes['Party'] }>
   Song: ResolverTypeWrapper<Song>
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>
 }
@@ -173,9 +176,9 @@ export type ResolversParentTypes = {
   String: Scalars['String']
   Mutation: {}
   Int: Scalars['Int']
-  Party: Party
-  VotedSong: VotedSong
-  PlayedSong: PlayedSong
+  Party: PartyModel
+  VotedSong: VotedSongModel
+  PlayedSong: Omit<PlayedSong, 'party'> & { party: ResolversParentTypes['Party'] }
   Song: Song
   Boolean: Scalars['Boolean']
 }

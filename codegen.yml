@@ -11,6 +11,14 @@ generates:
       declarationKind: interface
       mapperTypeSuffix: Model
       # avoidOptionals: true
-      # mappers:
-      #   Survey: ../entities/Survey#Survey
-      #   SurveyQuestion: ../entities/SurveyQuestion#SurveyQuestion
+      # defaultMapper: Partial<{T}> # For if we wanted partial resolution without specifying mppers.
+      #
+      # Not having mappers was causing the generated output type of the resolvers to be the same as the GraphQL API
+      # mapping type, which doesn't allow for resolver chaining (partial resolution).
+      # https://github.com/dotansimha/graphql-code-generator/issues/1219
+      # https://github.com/dotansimha/graphql-code-generator/discussions/4345
+      # https://graphql-code-generator.com/docs/plugins/typescript-resolvers#integration-with-apollo-server
+      # https://the-guild.dev/blog/better-type-safety-for-resolvers-with-graphql-codegen
+      mappers:
+        Party: ../entities/Party#Party
+        VotedSong: ../entities/VotedSong#VotedSong
