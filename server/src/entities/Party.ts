@@ -6,7 +6,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   Unique,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from 'typeorm'
 import { PlayedSong } from './PlayedSong'
 import { Song } from './Song'
@@ -21,7 +21,8 @@ export class Party extends BaseEntity {
   @Column()
   name: string
 
-  @Column({ nullable: true })
+  // Why specifying type varchar is necessary: https://github.com/typeorm/typeorm/issues/4139
+  @Column({ nullable: true, type: 'varchar' })
   password: string | null
 
   @UpdateDateColumn()
@@ -42,8 +43,10 @@ export class Party extends BaseEntity {
     this.name = name
     this.password = password || null
     this.currentSong = null
-    this.playedSongs = []
-    this.votedSongs = []
+    // Don't initialize this.playedSongs or this.votedSongs.
+    //   this.playedSongs = []
+    //   this.votedSongs = []
+    // Causes: InitializedRelationError: Array initializations are not allowed in entity relations.
   }
 
   public async playNextSong() {
