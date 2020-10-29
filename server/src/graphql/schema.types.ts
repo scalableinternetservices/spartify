@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-types */
+
 import { GraphQLResolveInfo } from 'graphql'
 import { Party as PartyModel } from '../entities/Party'
 import { VotedSong as VotedSongModel } from '../entities/VotedSong'
