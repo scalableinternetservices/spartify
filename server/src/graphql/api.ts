@@ -34,7 +34,7 @@ export const graphqlRoot: Resolvers<Context> = {
       }
     },
     createParty: async (_, { partyName, partyPassword }) => {
-      return new Party(partyName, partyPassword || undefined)
+      return await new Party(partyName, partyPassword || undefined).save()
     },
     nextSong: async (_, { partyId }) => {
       const party = await Party.findOne(partyId)
