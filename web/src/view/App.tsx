@@ -29,7 +29,7 @@ export function init() {
 }
 
 export function App() {
-  return <div></div>
+  return AppBody()
 }
 
 export function AppBody() {
