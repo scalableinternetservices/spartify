@@ -12,6 +12,7 @@ export class Song extends BaseEntity {
   @Column()
   artist: string
 
+  // Why specifying type varchar is necessary: https://github.com/typeorm/typeorm/issues/4139
   @Column({ nullable: true, type: 'varchar' })
   album: string | null
 }

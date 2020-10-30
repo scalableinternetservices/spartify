@@ -19,7 +19,7 @@ export async function initORM() {
     username: process.env.MYSQL_USER || 'root',
     synchronize: true,
     logging: false,
-    entities: [Party, PlayedSong, VotedSong, Song],
+    entities: [Party, Song, PlayedSong, VotedSong],
     extra: {
       connectionLimit: 5,
     },
