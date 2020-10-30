@@ -1,4 +1,4 @@
-import { ApolloProvider, useQuery } from '@apollo/client'
+import { ApolloProvider } from '@apollo/client'
 import { Redirect, Router } from '@reach/router'
 import * as React from 'react'
 import { useState } from 'react'
@@ -6,9 +6,6 @@ import { hydrate, render } from 'react-dom'
 import { Provider as StyletronProvider } from 'styletron-react'
 import { appContext } from '../../../common/src/context'
 import { getApolloClient } from '../graphql/apolloClient'
-import { FetchUserContext } from '../graphql/query.gen'
-import { fetchUser } from './auth/fetchUser'
-import { UserContext, UserCtx } from './auth/user'
 import { Route } from './nav/route'
 import { HomePage } from './page/HomePage'
 import { PartyPage } from './page/PartyPage'
@@ -32,16 +29,7 @@ export function init() {
 }
 
 export function App() {
-  const { loading, data } = useQuery<FetchUserContext>(fetchUser)
-  if (loading || data == null) {
-    return null
-  }
-
-  return (
-    <UserContext.Provider value={new UserCtx(data.self)}>
-      <AppBody />
-    </UserContext.Provider>
-  )
+  return <div></div>
 }
 
 export function AppBody() {
