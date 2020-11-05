@@ -1,12 +1,16 @@
+import { useQuery } from '@apollo/client'
 import { Grid, makeStyles, Paper } from '@material-ui/core'
 import * as React from 'react'
+import { FetchParty, FetchPartyVariables } from '../../graphql/query.gen'
 import { CurrentSong } from './CurrentSong'
+import { fetchParty } from './fetchParty'
 import { PlayedSong } from './PlayedSong'
 import { Song } from './Song'
 import { VotedSong } from './VotedSong'
 
 interface PartyPageProps {
   partyName: string
+  partyPassword: string
   path: string
 }
 
@@ -65,6 +69,16 @@ const useStyles = makeStyles({
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function PartyPage(props: PartyPageProps) {
   const classes = useStyles()
+  const { loading, data } = useQuery<FetchParty, FetchPartyVariables>(fetchParty, {
+    variables: { partyName: props.partyName, partyPassword: props.partyPassword },
+  })
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
+  if (!data) {
+    return <div>This party does not exist</div>
+  }
 
   // Song Library column - displays all available songs to vote for
   const library = (
