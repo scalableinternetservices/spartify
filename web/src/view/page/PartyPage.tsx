@@ -76,7 +76,7 @@ export function PartyPage(props: PartyPageProps) {
   if (loading) {
     return <div>Loading...</div>
   }
-  if (!data) {
+  if (data == null) {
     return <div>This party does not exist</div>
   }
 
