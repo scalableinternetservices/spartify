@@ -1,9 +1,12 @@
+import { useQuery } from '@apollo/client'
 import { Button, OutlinedInput, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import * as React from 'react'
 import { useState } from 'react'
+import { FetchParty, FetchPartyVariables } from '../../graphql/query.gen'
 import { Link } from '../nav/Link'
 import { getPath, Route } from '../nav/route'
+import { fetchParty } from './fetchParty'
 
 // Props will take in a path and a function which sets the party name in AppBody
 interface HomePageProps {
@@ -15,8 +18,8 @@ interface HomePageProps {
 const HEIGHT_DIFF = 36
 
 // Temporary placeholder name and password before we query
-const NAME = "Kathy's Party"
-const PASSWORD = "Kathy's Password"
+// const NAME = "Kathy's Party"
+// const PASSWORD = "Kathy's Password"
 
 // Hook used to override Material-UI's Button class
 const useStyles = makeStyles(theme => ({
@@ -58,8 +61,33 @@ export function HomePage(props: HomePageProps) {
   }
 
   // Will eventually make a GraphQL query to check if name and password match
-  const areValidCredentials = () => {
-    return name.length > 0 && name === NAME && password === PASSWORD
+  // const areValidCredentials = () => {
+  //   return name.length > 0 && name === NAME && password === PASSWORD
+  // }
+
+  // const [{ submitting, submitted }, setSubmitted] = useState({ submitting: false, submitted: false })
+
+  // function handleSubmit() {
+  //   setSubmitted({ submitting: true, submitted: false })
+  //   createParty(getApolloClient(), name, password)
+  //     .then(() => {
+  //       setSubmitted({ submitted: true, submitting: false })
+  //     })
+  //     .catch(err => {
+  //       handleError(err)
+  //       setSubmitted({ submitted: false, submitting: false })
+  //     })
+  // }
+
+  function areValidCredentials() {
+    let partyExists = false
+    const { data } = useQuery<FetchParty, FetchPartyVariables>(fetchParty, {
+      variables: { partyName: name, partyPassword: password },
+    })
+    if (data) {
+      partyExists = true
+    }
+    return name.length > 0 && partyExists
   }
 
   // Button that users select to create a party
