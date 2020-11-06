@@ -4,18 +4,65 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: FetchUserContext
+// GraphQL query operation: FetchParty
 // ====================================================
 
-export interface FetchUserContext_self {
-  __typename: "User";
+export interface FetchParty_party_currentSong {
+  __typename: "Song";
+  id: number;
+  title: string;
+  artist: string;
+  album: string | null;
+}
+
+export interface FetchParty_party_votedSongs_song {
+  __typename: "Song";
+  id: number;
+  title: string;
+  artist: string;
+  album: string | null;
+}
+
+export interface FetchParty_party_votedSongs {
+  __typename: "VotedSong";
+  id: number;
+  song: FetchParty_party_votedSongs_song;
+  count: number;
+}
+
+export interface FetchParty_party_playedSongs_song {
+  __typename: "Song";
+  id: number;
+  title: string;
+  artist: string;
+  album: string | null;
+}
+
+export interface FetchParty_party_playedSongs {
+  __typename: "PlayedSong";
+  id: number;
+  song: FetchParty_party_playedSongs_song;
+  seq: number;
+}
+
+export interface FetchParty_party {
+  __typename: "Party";
   id: number;
   name: string;
-  userType: UserType;
+  password: string | null;
+  latestTime: string;
+  currentSong: FetchParty_party_currentSong | null;
+  votedSongs: FetchParty_party_votedSongs[];
+  playedSongs: FetchParty_party_playedSongs[];
 }
 
-export interface FetchUserContext {
-  self: FetchUserContext_self | null;
+export interface FetchParty {
+  party: FetchParty_party | null;
+}
+
+export interface FetchPartyVariables {
+  partyName: string;
+  partyPassword?: string | null;
 }
 
 /* tslint:disable */
@@ -24,220 +71,121 @@ export interface FetchUserContext {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: FetchSurveys
+// GraphQL fragment: Song
 // ====================================================
 
-export interface FetchSurveys_surveys_currentQuestion_answers {
-  __typename: "SurveyAnswer";
-  answer: string;
-}
-
-export interface FetchSurveys_surveys_currentQuestion {
-  __typename: "SurveyQuestion";
+export interface Song {
+  __typename: "Song";
   id: number;
-  prompt: string;
-  choices: string[] | null;
-  answers: FetchSurveys_surveys_currentQuestion_answers[];
+  title: string;
+  artist: string;
+  album: string | null;
 }
 
-export interface FetchSurveys_surveys {
-  __typename: "Survey";
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: VotedSong
+// ====================================================
+
+export interface VotedSong_song {
+  __typename: "Song";
+  id: number;
+  title: string;
+  artist: string;
+  album: string | null;
+}
+
+export interface VotedSong {
+  __typename: "VotedSong";
+  id: number;
+  song: VotedSong_song;
+  count: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: PlayedSong
+// ====================================================
+
+export interface PlayedSong_song {
+  __typename: "Song";
+  id: number;
+  title: string;
+  artist: string;
+  album: string | null;
+}
+
+export interface PlayedSong {
+  __typename: "PlayedSong";
+  id: number;
+  song: PlayedSong_song;
+  seq: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: Party
+// ====================================================
+
+export interface Party_currentSong {
+  __typename: "Song";
+  id: number;
+  title: string;
+  artist: string;
+  album: string | null;
+}
+
+export interface Party_votedSongs_song {
+  __typename: "Song";
+  id: number;
+  title: string;
+  artist: string;
+  album: string | null;
+}
+
+export interface Party_votedSongs {
+  __typename: "VotedSong";
+  id: number;
+  song: Party_votedSongs_song;
+  count: number;
+}
+
+export interface Party_playedSongs_song {
+  __typename: "Song";
+  id: number;
+  title: string;
+  artist: string;
+  album: string | null;
+}
+
+export interface Party_playedSongs {
+  __typename: "PlayedSong";
+  id: number;
+  song: Party_playedSongs_song;
+  seq: number;
+}
+
+export interface Party {
+  __typename: "Party";
   id: number;
   name: string;
-  isStarted: boolean;
-  isCompleted: boolean;
-  currentQuestion: FetchSurveys_surveys_currentQuestion | null;
-}
-
-export interface FetchSurveys {
-  surveys: FetchSurveys_surveys[];
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL subscription operation: SurveySubscription
-// ====================================================
-
-export interface SurveySubscription_surveyUpdates_currentQuestion_answers {
-  __typename: "SurveyAnswer";
-  answer: string;
-}
-
-export interface SurveySubscription_surveyUpdates_currentQuestion {
-  __typename: "SurveyQuestion";
-  id: number;
-  prompt: string;
-  choices: string[] | null;
-  answers: SurveySubscription_surveyUpdates_currentQuestion_answers[];
-}
-
-export interface SurveySubscription_surveyUpdates {
-  __typename: "Survey";
-  id: number;
-  name: string;
-  isStarted: boolean;
-  isCompleted: boolean;
-  currentQuestion: SurveySubscription_surveyUpdates_currentQuestion | null;
-}
-
-export interface SurveySubscription {
-  surveyUpdates: SurveySubscription_surveyUpdates | null;
-}
-
-export interface SurveySubscriptionVariables {
-  surveyId: number;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL query operation: FetchSurvey
-// ====================================================
-
-export interface FetchSurvey_survey_currentQuestion_answers {
-  __typename: "SurveyAnswer";
-  answer: string;
-}
-
-export interface FetchSurvey_survey_currentQuestion {
-  __typename: "SurveyQuestion";
-  id: number;
-  prompt: string;
-  choices: string[] | null;
-  answers: FetchSurvey_survey_currentQuestion_answers[];
-}
-
-export interface FetchSurvey_survey {
-  __typename: "Survey";
-  id: number;
-  name: string;
-  isStarted: boolean;
-  isCompleted: boolean;
-  currentQuestion: FetchSurvey_survey_currentQuestion | null;
-}
-
-export interface FetchSurvey {
-  survey: FetchSurvey_survey | null;
-}
-
-export interface FetchSurveyVariables {
-  surveyId: number;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: AnswerSurveyQuestion
-// ====================================================
-
-export interface AnswerSurveyQuestion {
-  answerSurvey: boolean;
-}
-
-export interface AnswerSurveyQuestionVariables {
-  input: SurveyInput;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: NextSurveyQuestion
-// ====================================================
-
-export interface NextSurveyQuestion_nextSurveyQuestion_currentQuestion_answers {
-  __typename: "SurveyAnswer";
-  answer: string;
-}
-
-export interface NextSurveyQuestion_nextSurveyQuestion_currentQuestion {
-  __typename: "SurveyQuestion";
-  id: number;
-  prompt: string;
-  choices: string[] | null;
-  answers: NextSurveyQuestion_nextSurveyQuestion_currentQuestion_answers[];
-}
-
-export interface NextSurveyQuestion_nextSurveyQuestion {
-  __typename: "Survey";
-  id: number;
-  name: string;
-  isStarted: boolean;
-  isCompleted: boolean;
-  currentQuestion: NextSurveyQuestion_nextSurveyQuestion_currentQuestion | null;
-}
-
-export interface NextSurveyQuestion {
-  nextSurveyQuestion: NextSurveyQuestion_nextSurveyQuestion | null;
-}
-
-export interface NextSurveyQuestionVariables {
-  surveyId: number;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL fragment: Survey
-// ====================================================
-
-export interface Survey_currentQuestion_answers {
-  __typename: "SurveyAnswer";
-  answer: string;
-}
-
-export interface Survey_currentQuestion {
-  __typename: "SurveyQuestion";
-  id: number;
-  prompt: string;
-  choices: string[] | null;
-  answers: Survey_currentQuestion_answers[];
-}
-
-export interface Survey {
-  __typename: "Survey";
-  id: number;
-  name: string;
-  isStarted: boolean;
-  isCompleted: boolean;
-  currentQuestion: Survey_currentQuestion | null;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL fragment: SurveyQuestion
-// ====================================================
-
-export interface SurveyQuestion_answers {
-  __typename: "SurveyAnswer";
-  answer: string;
-}
-
-export interface SurveyQuestion {
-  __typename: "SurveyQuestion";
-  id: number;
-  prompt: string;
-  choices: string[] | null;
-  answers: SurveyQuestion_answers[];
+  password: string | null;
+  latestTime: string;
+  currentSong: Party_currentSong | null;
+  votedSongs: Party_votedSongs[];
+  playedSongs: Party_playedSongs[];
 }
 
 /* tslint:disable */
@@ -248,16 +196,6 @@ export interface SurveyQuestion {
 //==============================================================
 // START Enums and Input Objects
 //==============================================================
-
-export enum UserType {
-  ADMIN = "ADMIN",
-  USER = "USER",
-}
-
-export interface SurveyInput {
-  questionId: number;
-  answer: string;
-}
 
 //==============================================================
 // END Enums and Input Objects

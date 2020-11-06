@@ -1,22 +1,22 @@
+import { useLazyQuery } from '@apollo/client'
 import { Button, OutlinedInput, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import { navigate } from '@reach/router'
 import * as React from 'react'
 import { useState } from 'react'
-import { Link } from '../nav/Link'
+import { FetchParty, FetchPartyVariables } from '../../graphql/query.gen'
 import { getPath, Route } from '../nav/route'
+import { fetchParty } from './fetchParty'
 
 // Props will take in a path and a function which sets the party name in AppBody
 interface HomePageProps {
   path: string
   partyNameHandler: (arg0: string) => void
+  partyPasswordHandler: (arg0: string) => void
 }
 
 // Constant height offset between buttons
 const HEIGHT_DIFF = 36
-
-// Temporary placeholder name and password before we query
-const NAME = "Kathy's Party"
-const PASSWORD = "Kathy's Password"
 
 // Hook used to override Material-UI's Button class
 const useStyles = makeStyles(theme => ({
@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
 export function HomePage(props: HomePageProps) {
   // partyNameHandler is a prop passed in by AppBody which is used to lift state.
   // This is so we can pass the party name into <PartyPage />
-  const { partyNameHandler } = props
+  const { partyNameHandler, partyPasswordHandler } = props
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
   const [isCreatePage, setCreate] = useState(false) // Checks for create page popup
@@ -55,12 +55,41 @@ export function HomePage(props: HomePageProps) {
   // Sets party password to value entered in text field
   const handlePassword = (e: any) => {
     setPassword(e.target.value)
+    partyPasswordHandler(e.target.value)
   }
 
-  // Will eventually make a GraphQL query to check if name and password match
-  const areValidCredentials = () => {
-    return name.length > 0 && name === NAME && password === PASSWORD
+  // const [{ submitting, submitted }, setSubmitted] = useState({ submitting: false, submitted: false })
+
+  // function handleSubmit() {
+  //   setSubmitted({ submitting: true, submitted: false })
+  //   createParty(getApolloClient(), name, password)
+  //     .then(() => {
+  //       setSubmitted({ submitted: true, submitting: false })
+  //     })
+  //     .catch(err => {
+  //       handleError(err)
+  //       setSubmitted({ submitted: false, submitting: false })
+  //     })
+  // }
+
+  // Use useLazyQuery() to execute a query at a time other than component render (which is when useQuery() executes).
+  // TODO: Currently, the party query is executed here and in PartyPage. A future optimization can be to prevent this.
+  const [toParty, { data }] = useLazyQuery<FetchParty, FetchPartyVariables>(fetchParty, {
+    variables: { partyName: name, partyPassword: password },
+  })
+  if (data?.party) {
+    void navigate(getPath(Route.PARTY))
   }
+
+  // function areValidCredentials() {
+  //   let partyExists = false
+  //   const { data } = useQuery<FetchParty, FetchPartyVariables>(fetchParty, {
+  //     variables: { partyName: name, partyPassword: password },
+  //   })
+  //   if (data) {
+  //     partyExists = true
+  //   }
+  // }
 
   // Button that users select to create a party
   const create = (
@@ -151,11 +180,10 @@ export function HomePage(props: HomePageProps) {
           <Button
             style={{ background: '#659383', left: '80px', marginTop: '20px', fontWeight: 'bold' }}
             className={classes.button}
+            onClick={() => toParty()}
           >
             <ul>
-              <Link to={areValidCredentials() ? getPath(Route.PARTY) : getPath(Route.HOME)}>
-                <h1 style={{ color: 'white' }}>{message2}</h1>
-              </Link>
+              <h1 style={{ color: 'white' }}>{message2}</h1>
             </ul>
           </Button>
         </Paper>

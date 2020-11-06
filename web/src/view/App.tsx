@@ -34,12 +34,13 @@ export function App() {
 
 export function AppBody() {
   const [partyName, setPartyName] = useState('')
+  const [partyPassword, setPartyPassword] = useState('')
   return (
     <>
       <Router className={bodyClass}>
         <Redirect noThrow from="app" to="index" />
-        <HomePage partyNameHandler={setPartyName} path={Route.HOME} />
-        <PartyPage partyName={partyName} path={Route.PARTY} />
+        <HomePage partyNameHandler={setPartyName} partyPasswordHandler={setPartyPassword} path={Route.HOME} />
+        <PartyPage partyName={partyName} partyPassword={partyPassword} path={Route.PARTY} />
       </Router>
     </>
   )
