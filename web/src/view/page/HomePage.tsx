@@ -1,9 +1,12 @@
+import { useLazyQuery } from '@apollo/client'
 import { Button, OutlinedInput, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import { navigate } from '@reach/router'
 import * as React from 'react'
 import { useState } from 'react'
-import { Link } from '../nav/Link'
+import { FetchParty, FetchPartyVariables } from '../../graphql/query.gen'
 import { getPath, Route } from '../nav/route'
+import { fetchParty } from './fetchParty'
 
 // Props will take in a path and a function which sets the party name in AppBody
 interface HomePageProps {
@@ -14,10 +17,6 @@ interface HomePageProps {
 
 // Constant height offset between buttons
 const HEIGHT_DIFF = 36
-
-// Temporary placeholder name and password before we query
-const NAME = "Kathy's Party"
-const PASSWORD = "Kathy's Password"
 
 // Hook used to override Material-UI's Button class
 const useStyles = makeStyles(theme => ({
@@ -59,11 +58,6 @@ export function HomePage(props: HomePageProps) {
     partyPasswordHandler(e.target.value)
   }
 
-  // Will eventually make a GraphQL query to check if name and password match
-  const areValidCredentials = () => {
-    return name.length > 0 && name === NAME && password === PASSWORD
-  }
-
   // const [{ submitting, submitted }, setSubmitted] = useState({ submitting: false, submitted: false })
 
   // function handleSubmit() {
@@ -78,6 +72,15 @@ export function HomePage(props: HomePageProps) {
   //     })
   // }
 
+  // Use useLazyQuery() to execute a query at a time other than component render (which is when useQuery() executes).
+  // TODO: Currently, the party query is executed here and in PartyPage. A future optimization can be to prevent this.
+  const [toParty, { data }] = useLazyQuery<FetchParty, FetchPartyVariables>(fetchParty, {
+    variables: { partyName: name, partyPassword: password },
+  })
+  if (data?.party) {
+    void navigate(getPath(Route.PARTY))
+  }
+
   // function areValidCredentials() {
   //   let partyExists = false
   //   const { data } = useQuery<FetchParty, FetchPartyVariables>(fetchParty, {
@@ -86,7 +89,6 @@ export function HomePage(props: HomePageProps) {
   //   if (data) {
   //     partyExists = true
   //   }
-  //   return name.length > 0 && partyExists
   // }
 
   // Button that users select to create a party
@@ -178,11 +180,10 @@ export function HomePage(props: HomePageProps) {
           <Button
             style={{ background: '#659383', left: '80px', marginTop: '20px', fontWeight: 'bold' }}
             className={classes.button}
+            onClick={() => toParty()}
           >
             <ul>
-              <Link to={areValidCredentials() ? getPath(Route.PARTY) : getPath(Route.PARTY)}>
-                <h1 style={{ color: 'white' }}>{message2}</h1>
-              </Link>
+              <h1 style={{ color: 'white' }}>{message2}</h1>
             </ul>
           </Button>
         </Paper>
