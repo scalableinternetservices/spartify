@@ -71,6 +71,73 @@ export interface FetchPartyVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: CreateParty
+// ====================================================
+
+export interface CreateParty_createParty_currentSong {
+  __typename: "Song";
+  id: number;
+  title: string;
+  artist: string;
+  album: string | null;
+}
+
+export interface CreateParty_createParty_votedSongs_song {
+  __typename: "Song";
+  id: number;
+  title: string;
+  artist: string;
+  album: string | null;
+}
+
+export interface CreateParty_createParty_votedSongs {
+  __typename: "VotedSong";
+  id: number;
+  song: CreateParty_createParty_votedSongs_song;
+  count: number;
+}
+
+export interface CreateParty_createParty_playedSongs_song {
+  __typename: "Song";
+  id: number;
+  title: string;
+  artist: string;
+  album: string | null;
+}
+
+export interface CreateParty_createParty_playedSongs {
+  __typename: "PlayedSong";
+  id: number;
+  song: CreateParty_createParty_playedSongs_song;
+  seq: number;
+}
+
+export interface CreateParty_createParty {
+  __typename: "Party";
+  id: number;
+  name: string;
+  password: string | null;
+  latestTime: string;
+  currentSong: CreateParty_createParty_currentSong | null;
+  votedSongs: CreateParty_createParty_votedSongs[];
+  playedSongs: CreateParty_createParty_playedSongs[];
+}
+
+export interface CreateParty {
+  createParty: CreateParty_createParty | null;
+}
+
+export interface CreatePartyVariables {
+  partyName: string;
+  partyPassword?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL fragment: Song
 // ====================================================
 
