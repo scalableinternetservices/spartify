@@ -4,9 +4,12 @@ import { makeStyles } from '@material-ui/core/styles'
 import { navigate } from '@reach/router'
 import * as React from 'react'
 import { useState } from 'react'
+import { getApolloClient } from '../../graphql/apolloClient'
 import { FetchParty, FetchPartyVariables } from '../../graphql/query.gen'
 import { getPath, Route } from '../nav/route'
+import { handleError } from '../toast/error'
 import { fetchParty } from './fetchParty'
+import { createParty } from './mutateParty'
 
 // Props will take in a path and a function which sets the party name in AppBody
 interface HomePageProps {
@@ -58,19 +61,24 @@ export function HomePage(props: HomePageProps) {
     partyPasswordHandler(e.target.value)
   }
 
-  // const [{ submitting, submitted }, setSubmitted] = useState({ submitting: false, submitted: false })
-
-  // function handleSubmit() {
-  //   setSubmitted({ submitting: true, submitted: false })
-  //   createParty(getApolloClient(), name, password)
-  //     .then(() => {
-  //       setSubmitted({ submitted: true, submitting: false })
-  //     })
-  //     .catch(err => {
-  //       handleError(err)
-  //       setSubmitted({ submitted: false, submitting: false })
-  //     })
-  // }
+  // Use createParty mutation to create and join a new party
+  // Call toParty() on success to join the newly created party
+  const [{ submitted }, setSubmitted] = useState({ submitting: false, submitted: false })
+  function handleSubmit() {
+    setSubmitted({ submitting: true, submitted: false })
+    createParty(getApolloClient(), name, password)
+      .then(() => {
+        setSubmitted({ submitted: true, submitting: false })
+        toParty()
+      })
+      .catch(err => {
+        handleError(err)
+        setSubmitted({ submitted: false, submitting: false })
+      })
+  }
+  if (submitted) {
+    console.log('submitted')
+  }
 
   // Use useLazyQuery() to execute a query at a time other than component render (which is when useQuery() executes).
   // TODO: Currently, the party query is executed here and in PartyPage. A future optimization can be to prevent this.
@@ -80,16 +88,6 @@ export function HomePage(props: HomePageProps) {
   if (data?.party) {
     void navigate(getPath(Route.PARTY))
   }
-
-  // function areValidCredentials() {
-  //   let partyExists = false
-  //   const { data } = useQuery<FetchParty, FetchPartyVariables>(fetchParty, {
-  //     variables: { partyName: name, partyPassword: password },
-  //   })
-  //   if (data) {
-  //     partyExists = true
-  //   }
-  // }
 
   // Button that users select to create a party
   const create = (
@@ -180,7 +178,9 @@ export function HomePage(props: HomePageProps) {
           <Button
             style={{ background: '#659383', left: '80px', marginTop: '20px', fontWeight: 'bold' }}
             className={classes.button}
-            onClick={() => toParty()}
+            onClick={() => {
+              isCreatePage ? handleSubmit() : toParty()
+            }}
           >
             <ul>
               <h1 style={{ color: 'white' }}>{message2}</h1>
