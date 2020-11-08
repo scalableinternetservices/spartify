@@ -50,6 +50,10 @@ const useStyles = makeStyles(theme => ({
     marginTop: '10px',
     background: 'white',
   },
+  errorText: {
+    textAlign: 'center',
+    color: '#ab6a8e',
+  },
   root: {
     display: 'flex',
     '& > *': {
@@ -70,7 +74,7 @@ export function HomePage(props: HomePageProps) {
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
   const [isCreatePage, setCreate] = useState(false) // Checks for create page popup
-  const [isJoinPage, setLogin] = useState(false) // Checks for join page popup
+  const [isJoinPage, setLogin] = useState(true) // Checks for join page popup
   const classes = useStyles()
 
   // Sets party name to value entered in text field
@@ -88,6 +92,7 @@ export function HomePage(props: HomePageProps) {
   // Use createParty mutation to create and join a new party
   // Call toParty() on success to join the newly created party
   const [{ submitted }, setSubmitted] = useState({ submitting: false, submitted: false })
+  const [createError, setCreateError] = useState(false)
   function handleSubmit() {
     setSubmitted({ submitting: true, submitted: false })
     createParty(getApolloClient(), name, password)
@@ -98,6 +103,7 @@ export function HomePage(props: HomePageProps) {
       .catch(err => {
         handleError(err)
         setSubmitted({ submitted: false, submitting: false })
+        setCreateError(true)
       })
   }
   if (submitted) {
@@ -113,18 +119,22 @@ export function HomePage(props: HomePageProps) {
     void navigate(getPath(Route.PARTY))
   }
 
+  function clearFields() {
+    setName('')
+    setPassword('')
+    partyNameHandler('')
+    partyPasswordHandler('')
+  }
+
   // Button that users select to create a party
   const create = (
     <Button
       style={{ left: '-70px', top: -20 }}
       className={classes.button}
       onClick={() => {
-        if (!isJoinPage) {
-          setCreate(!isCreatePage)
-          setName('')
-          setPassword('')
-          partyNameHandler('')
-        }
+        setCreate(true)
+        setLogin(false)
+        clearFields()
       }}
     >
       <p className={classes.buttonText}>create a party</p>
@@ -137,12 +147,9 @@ export function HomePage(props: HomePageProps) {
       style={{ left: '70px', top: -20 - HEIGHT_DIFF }}
       className={classes.button}
       onClick={() => {
-        if (!isCreatePage) {
-          setLogin(!isJoinPage)
-          setName('')
-          setPassword('')
-          partyNameHandler('')
-        }
+        setLogin(true)
+        setCreate(false)
+        clearFields()
       }}
     >
       <p className={classes.buttonText}>join a party</p>
@@ -210,10 +217,10 @@ export function HomePage(props: HomePageProps) {
       >
         spartify
       </h1>
-
       {/* Popups only appear if the join or create buttons have been pressed */}
       {isJoinPage && popup('Join a party', 'Join the party!')}
       {isCreatePage && popup('Create a party', 'Start the party!')}
+      {createError && <p className={classes.errorText}>Looks like that party name already exists.</p>}
     </>
   )
 }
