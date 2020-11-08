@@ -25,6 +25,30 @@ const HEIGHT_DIFF = 36
 const useStyles = makeStyles(theme => ({
   button: {
     textTransform: 'none',
+    fontWeight: 'bold',
+  },
+  buttonText: {
+    color: '#c6dad9',
+  },
+  popupTitle: {
+    color: '#5aaea9',
+    marginTop: '25px',
+    marginLeft: '30px',
+    fontSize: '15px',
+    fontWeight: 'bold',
+  },
+  inputPrompt: {
+    color: 'white',
+    marginTop: '25px',
+    marginLeft: '30px',
+    fontSize: '13px',
+    fontWeight: 'normal',
+  },
+  input: {
+    width: '230px',
+    left: '28px',
+    marginTop: '10px',
+    background: 'white',
   },
   root: {
     display: 'flex',
@@ -92,7 +116,7 @@ export function HomePage(props: HomePageProps) {
   // Button that users select to create a party
   const create = (
     <Button
-      style={{ left: '-70px', top: -20, fontWeight: 'bold' }}
+      style={{ left: '-70px', top: -20 }}
       className={classes.button}
       onClick={() => {
         if (!isJoinPage) {
@@ -103,14 +127,14 @@ export function HomePage(props: HomePageProps) {
         }
       }}
     >
-      <p style={{ color: '#c6dad9' }}>create a party</p>
+      <p className={classes.buttonText}>create a party</p>
     </Button>
   )
 
   // Button that users select to join a party
   const join = (
     <Button
-      style={{ left: '70px', top: -20 - HEIGHT_DIFF, fontWeight: 'bold' }}
+      style={{ left: '70px', top: -20 - HEIGHT_DIFF }}
       className={classes.button}
       onClick={() => {
         if (!isCreatePage) {
@@ -121,7 +145,7 @@ export function HomePage(props: HomePageProps) {
         }
       }}
     >
-      <p style={{ color: '#c6dad9' }}>join a party</p>
+      <p className={classes.buttonText}>join a party</p>
     </Button>
   )
 
@@ -131,49 +155,25 @@ export function HomePage(props: HomePageProps) {
     return (
       <div className={classes.root}>
         <Paper variant="elevation">
-          <h1
-            style={{
-              color: '#5aaea9',
-              marginTop: '25px',
-              marginLeft: '30px',
-              fontSize: '15px',
-              fontWeight: 'bold',
-            }}
-          >
-            {message1}
-          </h1>
+          <h1 className={classes.popupTitle}>{message1}</h1>
           <h2
             style={{
-              color: 'white',
               marginTop: '25px',
-              marginLeft: '30px',
-              fontSize: '13px',
-              fontWeight: 'normal',
             }}
+            className={classes.inputPrompt}
           >
             Party Name
           </h2>
-          <OutlinedInput
-            style={{ width: '230px', left: '28px', marginTop: '10px', background: 'white' }}
-            defaultValue=""
-            onChange={handleName}
-          />
+          <OutlinedInput className={classes.input} defaultValue="" onChange={handleName} />
           <h2
             style={{
-              color: 'white',
               marginTop: '10px',
-              marginLeft: '30px',
-              fontSize: '13px',
-              fontWeight: 'normal',
             }}
+            className={classes.inputPrompt}
           >
             Password (optional)
           </h2>
-          <OutlinedInput
-            style={{ width: '230px', left: '28px', marginTop: '10px', background: 'white' }}
-            defaultValue=""
-            onChange={handlePassword}
-          />
+          <OutlinedInput className={classes.input} defaultValue="" onChange={handlePassword} />
           {/* Button which routes to party page */}
           <Button
             style={{ background: '#659383', left: '80px', marginTop: '20px', fontWeight: 'bold' }}
