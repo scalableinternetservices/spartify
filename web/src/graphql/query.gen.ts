@@ -52,8 +52,8 @@ export interface FetchParty_party {
   password: string | null;
   latestTime: string;
   currentSong: FetchParty_party_currentSong | null;
-  votedSongs: FetchParty_party_votedSongs[];
-  playedSongs: FetchParty_party_playedSongs[];
+  votedSongs: FetchParty_party_votedSongs[] | null;
+  playedSongs: FetchParty_party_playedSongs[] | null;
 }
 
 export interface FetchParty {
@@ -119,8 +119,8 @@ export interface CreateParty_createParty {
   password: string | null;
   latestTime: string;
   currentSong: CreateParty_createParty_currentSong | null;
-  votedSongs: CreateParty_createParty_votedSongs[];
-  playedSongs: CreateParty_createParty_playedSongs[];
+  votedSongs: CreateParty_createParty_votedSongs[] | null;
+  playedSongs: CreateParty_createParty_playedSongs[] | null;
 }
 
 export interface CreateParty {
@@ -251,8 +251,8 @@ export interface Party {
   password: string | null;
   latestTime: string;
   currentSong: Party_currentSong | null;
-  votedSongs: Party_votedSongs[];
-  playedSongs: Party_playedSongs[];
+  votedSongs: Party_votedSongs[] | null;
+  playedSongs: Party_playedSongs[] | null;
 }
 
 /* tslint:disable */

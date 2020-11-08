@@ -912,19 +912,15 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "NON_NULL",
+              "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "LIST",
+                "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Song",
-                    "ofType": null
-                  }
+                  "kind": "OBJECT",
+                  "name": "Song",
+                  "ofType": null
                 }
               }
             },
@@ -1145,19 +1141,15 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "NON_NULL",
+              "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "LIST",
+                "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "VotedSong",
-                    "ofType": null
-                  }
+                  "kind": "OBJECT",
+                  "name": "VotedSong",
+                  "ofType": null
                 }
               }
             },
@@ -1169,19 +1161,15 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "NON_NULL",
+              "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "LIST",
+                "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "PlayedSong",
-                    "ofType": null
-                  }
+                  "kind": "OBJECT",
+                  "name": "PlayedSong",
+                  "ofType": null
                 }
               }
             },
