@@ -11,7 +11,7 @@ export class VotedSong extends BaseEntity {
   @Column()
   votes: number
 
-  @ManyToOne(() => Song)
+  @ManyToOne(() => Song, { eager: true })
   song: Song
 
   @ManyToOne(() => Party, party => party.votedSongs)

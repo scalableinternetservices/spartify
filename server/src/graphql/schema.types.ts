@@ -63,7 +63,7 @@ export interface VotedSong {
   id: Scalars['Int']
   party: Party
   song: Song
-  count: Scalars['Int']
+  votes: Scalars['Int']
 }
 
 export interface PlayedSong {
@@ -236,7 +236,7 @@ export type VotedSongResolvers<
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   party?: Resolver<ResolversTypes['Party'], ParentType, ContextType>
   song?: Resolver<ResolversTypes['Song'], ParentType, ContextType>
-  count?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  votes?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType>
 }
 

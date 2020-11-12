@@ -19,8 +19,21 @@ interface Context {
 
 export const graphqlRoot: Resolvers<Context> = {
   Query: {
-    party: async (_, { partyName, partyPassword }) =>
-      (await Party.findOne({ name: partyName, password: partyPassword || undefined })) || null,
+    party: async (_, { partyName, partyPassword }) => {
+      const party = await Party.findOne({ name: partyName, password: partyPassword || null })
+
+      party?.votedSongs.sort((votedSong1, votedSong2) => {
+        if (votedSong1.votes != votedSong2.votes) {
+          return votedSong2.votes - votedSong1.votes
+        }
+        if (votedSong1.song.title < votedSong2.song.title) {
+          return -1
+        }
+        return 0
+      })
+
+      return party || null
+    },
     songs: () => Song.find(),
   },
   Mutation: {

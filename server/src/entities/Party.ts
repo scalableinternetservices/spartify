@@ -6,7 +6,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   Unique,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from 'typeorm'
 import { PlayedSong } from './PlayedSong'
 import { Song } from './Song'

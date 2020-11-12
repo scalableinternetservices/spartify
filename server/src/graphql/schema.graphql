@@ -44,7 +44,7 @@ type Mutation {
   nextSong(partyId: Int!): Party
 }
 
-type Party  {
+type Party {
   id: Int!
 
   # The name of this Party that was inputted by the party creator.
@@ -62,7 +62,7 @@ type Party  {
   # (2) the queue was empty and the "next song" button was pressed.
   currentSong: Song
 
-  # All VotedSong for this Party in order of decreasing VotedSong.count.
+  # All VotedSong for this Party in order of decreasing VotedSong.votes.
   votedSongs: [VotedSong!]!
 
   # All PlayedSong for this Party in order of decreasing PlayedSong.seq.
@@ -78,9 +78,9 @@ type VotedSong {
   # The Song that this VotedSong is for.
   song: Song!
 
-  # The count of votes for this VotedSong.
+  # The number of votes for this VotedSong.
   # Should always be >= 1, as a played song should have its VotedSong entry deleted.
-  count: Int!
+  votes: Int!
 }
 
 type PlayedSong {

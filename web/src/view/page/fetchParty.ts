@@ -15,7 +15,7 @@ export const fragmentVotedSong = gql`
     song {
       ...Song
     }
-    count
+    votes
   }
 `
 

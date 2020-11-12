@@ -1248,7 +1248,7 @@
             "deprecationReason": null
           },
           {
-            "name": "count",
+            "name": "votes",
             "description": null,
             "args": [],
             "type": {

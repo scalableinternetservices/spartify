@@ -11,7 +11,7 @@ export class PlayedSong extends BaseEntity {
   @Column()
   sequenceNumber: number
 
-  @ManyToOne(() => Song)
+  @ManyToOne(() => Song, { eager: true })
   song: Song
 
   @ManyToOne(() => Party, party => party.playedSongs)
