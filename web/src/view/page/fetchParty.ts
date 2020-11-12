@@ -1,5 +1,16 @@
 import { gql } from '@apollo/client'
 
+export const allSongs = gql`
+  query AllSongs {
+    songs {
+      id
+      title
+      artist
+      album
+    }
+  }
+`
+
 export const fragmentSong = gql`
   fragment Song on Song {
     id

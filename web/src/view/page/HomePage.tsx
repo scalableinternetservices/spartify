@@ -10,7 +10,6 @@ import { getPath, Route } from '../nav/route'
 import { handleError } from '../toast/error'
 import { fetchParty } from './fetchParty'
 import { createParty } from './mutateParty'
-
 // Props will take in a path and a function which sets the party name in AppBody
 interface HomePageProps {
   path: string
@@ -76,7 +75,7 @@ export function HomePage(props: HomePageProps) {
   const [isCreatePage, setCreate] = useState(false) // Checks for create page popup
   const [isJoinPage, setLogin] = useState(true) // Checks for join page popup
   const classes = useStyles()
-
+  // const [getSong, { loading }]
   // Sets party name to value entered in text field
   const handleName = (e: any) => {
     setName(e.target.value)
@@ -115,6 +114,7 @@ export function HomePage(props: HomePageProps) {
   const [toParty, { data }] = useLazyQuery<FetchParty, FetchPartyVariables>(fetchParty, {
     variables: { partyName: name, partyPassword: password },
   })
+
   if (data?.party) {
     void navigate(getPath(Route.PARTY))
   }

@@ -4,6 +4,27 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: AllSongs
+// ====================================================
+
+export interface AllSongs_songs {
+  __typename: "Song";
+  id: number;
+  title: string;
+  artist: string;
+  album: string | null;
+}
+
+export interface AllSongs {
+  songs: AllSongs_songs[] | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: FetchParty
 // ====================================================
 
@@ -130,6 +151,39 @@ export interface CreateParty {
 export interface CreatePartyVariables {
   partyName: string;
   partyPassword?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: VoteSong
+// ====================================================
+
+export interface VoteSong_vote_song {
+  __typename: "Song";
+  id: number;
+  title: string;
+  artist: string;
+  album: string | null;
+}
+
+export interface VoteSong_vote {
+  __typename: "VotedSong";
+  id: number;
+  song: VoteSong_vote_song;
+  count: number;
+}
+
+export interface VoteSong {
+  vote: VoteSong_vote | null;
+}
+
+export interface VoteSongVariables {
+  partyId: number;
+  songId: number;
 }
 
 /* tslint:disable */
