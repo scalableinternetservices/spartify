@@ -3,13 +3,13 @@ import { Button, Card, CardContent, Grid, makeStyles, Typography } from '@materi
 import AddIcon from '@material-ui/icons/Add'
 import * as React from 'react'
 import { voteSongMutation } from './mutateParty'
-
 interface SongProps {
   title: string
   artist: string
   album: string
   id: number
   partyId: number
+  refetchQuery: () => void
 }
 
 // custom styling to override Material UI's default styles
@@ -49,10 +49,12 @@ const useStyles = makeStyles({
 
 export function Song(props: SongProps) {
   const classes = useStyles()
+  //const [refresh, setRefresh] = useState(0)
   const [addVote] = useMutation(voteSongMutation)
-  async function voteSong() {
-    // TODO: implement vote for song functionality
+
+  function voteSong() {
     void addVote({ variables: { partyId: props.partyId, songId: props.id } })
+    props.refetchQuery()
   }
 
   return (

@@ -22,6 +22,14 @@ export const voteSongMutation = gql`
   }
 `
 
+export const nextSongMutation = gql`
+  mutation NextSong($partyId: Int!) {
+    nextSong(partyId: $partyId) {
+      id
+    }
+  }
+`
+
 // TODO: add mutations for vote and nextSong
 
 export function createParty(client: ApolloClient<any>, partyName: string, partyPassword: string) {

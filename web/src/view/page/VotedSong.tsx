@@ -5,7 +5,7 @@ interface SongProps {
   title: string
   artist: string
   album: string
-  id: number
+  count: number
 }
 
 // custom styling to override Material UI's default styles
@@ -39,7 +39,6 @@ const useStyles = makeStyles({
 
 export function VotedSong(props: SongProps) {
   const classes = useStyles()
-
   return (
     <Card className={classes.card}>
       <CardContent className={classes.cardContent}>
@@ -57,7 +56,7 @@ export function VotedSong(props: SongProps) {
 
           {/* Vote Count */}
           <Grid item xs={2} className={classes.votes}>
-            189 <br /> Votes
+            {props.count} <br /> Votes
           </Grid>
         </Grid>
       </CardContent>

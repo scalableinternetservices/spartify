@@ -14,6 +14,7 @@ interface PartyPageProps {
   path: string
 }
 
+// Creates a list of displayed songs
 function createSongList(songArr: Array<any>) {
   return songArr.map((song: any) => {
     return {
@@ -21,6 +22,18 @@ function createSongList(songArr: Array<any>) {
       artist: song.artist,
       album: song.album,
       id: song.id,
+    }
+  })
+}
+
+// Creates a list of voted songs
+function createVoteList(songArr: Array<any>) {
+  return songArr.map((song: any) => {
+    return {
+      title: song.song.title,
+      artist: song.song.artist,
+      album: song.song.album,
+      count: song.count,
     }
   })
 }
@@ -48,14 +61,15 @@ const useStyles = makeStyles({
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function PartyPage(props: PartyPageProps) {
   const classes = useStyles()
-  const { loading: partyLoading, data: partyInfo } = useQuery<FetchParty, FetchPartyVariables>(fetchParty, {
+  const { loading: partyLoading, data: partyInfo, refetch } = useQuery<FetchParty, FetchPartyVariables>(fetchParty, {
     variables: { partyName: props.partyName, partyPassword: props.partyPassword },
   })
-  const { loading: songLoading, data: songs } = useQuery(allSongs)
 
+  const { loading: songLoading, data: songs } = useQuery(allSongs)
   if (partyLoading) {
     return <div>Loading...</div>
   }
+
   if (songLoading) {
     return <div>Loading...</div>
   }
@@ -68,20 +82,28 @@ export function PartyPage(props: PartyPageProps) {
     return <div>This party does not exist</div>
   }
 
-  // console.log('songs', songs)
-  // console.log('partyInfo', partyInfo)
-  // const [addVote] = useMutation(voteSongMutation)
-  // addVote({ variables: {partyId: }})
-  // const { votedSongs, playedSongs } = partyInfo.party
-  //const votedSongList = votedSongs === null ? [] : createSongList(votedSongs)
-  //const playedSongList = playedSongs === null ? [] : createSongList(playedSongs)
-  const songList = createSongList(songs.songs)
+  console.log('songs', songs)
+  console.log('partyInfo', partyInfo)
+  const { votedSongs, playedSongs } = partyInfo.party
+  const votedSongList = votedSongs === null ? [] : createVoteList(votedSongs)
+  // playedSongList still needs to be updated
+  const playedSongList = playedSongs === null ? [] : createSongList(playedSongs)
+  const songList = songs.songs === null ? [] : createSongList(songs.songs)
   const partyId = partyInfo.party.id === null ? 0 : partyInfo.party.id
+
   // Song Library column - displays all available songs to vote for
   const library = (
     <Paper className={classes.paper}>
       {songList.map((song, i) => (
-        <Song key={i} partyId={partyId} title={song.title} artist={song.artist} album={song.album} id={song.id} />
+        <Song
+          key={i}
+          partyId={partyId}
+          title={song.title}
+          artist={song.artist}
+          album={song.album}
+          id={song.id}
+          refetchQuery={refetch}
+        />
       ))}
     </Paper>
   )
@@ -89,8 +111,8 @@ export function PartyPage(props: PartyPageProps) {
   // Queue column - displays songs with votes in decreasing order
   const queue = (
     <Paper className={classes.paper} style={{ backgroundColor: '434343' }}>
-      {songList.map((song, i) => (
-        <VotedSong key={i} title={song.title} artist={song.artist} album={song.album} id={song.id} />
+      {votedSongList.map((song, i) => (
+        <VotedSong key={i} title={song.title} artist={song.artist} album={song.album} count={song.count} />
       ))}
     </Paper>
   )
@@ -98,7 +120,7 @@ export function PartyPage(props: PartyPageProps) {
   // Listening History column - displays previously played songs in the current party
   const history = (
     <Paper className={classes.paper}>
-      {songList.map((song, i) => (
+      {playedSongList.map((song, i) => (
         <PlayedSong key={i} title={song.title} artist={song.artist} album={song.album} id={song.id} />
       ))}
     </Paper>
@@ -118,7 +140,13 @@ export function PartyPage(props: PartyPageProps) {
           {/* Current Playing Song */}
           <Grid item xs={12} md={4} className={classes.songListColumn}>
             Now Playing
-            <CurrentSong />
+            <CurrentSong
+              title="Breathe"
+              artist="Catie Turner"
+              album="The Sad Vegan"
+              partyId={partyId}
+              refetchQuery={refetch}
+            />
           </Grid>
         </Grid>
 
