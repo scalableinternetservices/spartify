@@ -27,7 +27,7 @@ export interface FetchParty_party_votedSongs {
   __typename: "VotedSong";
   id: number;
   song: FetchParty_party_votedSongs_song;
-  votes: number;
+  count: number;
 }
 
 export interface FetchParty_party_playedSongs_song {
@@ -94,7 +94,7 @@ export interface CreateParty_createParty_votedSongs {
   __typename: "VotedSong";
   id: number;
   song: CreateParty_createParty_votedSongs_song;
-  votes: number;
+  count: number;
 }
 
 export interface CreateParty_createParty_playedSongs_song {
@@ -170,7 +170,7 @@ export interface VotedSong {
   __typename: "VotedSong";
   id: number;
   song: VotedSong_song;
-  votes: number;
+  count: number;
 }
 
 /* tslint:disable */
@@ -226,7 +226,7 @@ export interface Party_votedSongs {
   __typename: "VotedSong";
   id: number;
   song: Party_votedSongs_song;
-  votes: number;
+  count: number;
 }
 
 export interface Party_playedSongs_song {

@@ -23,8 +23,8 @@ export const graphqlRoot: Resolvers<Context> = {
       const party = await Party.findOne({ name: partyName, password: partyPassword || null })
 
       party?.votedSongs.sort((votedSong1, votedSong2) => {
-        if (votedSong1.votes != votedSong2.votes) {
-          return votedSong2.votes - votedSong1.votes
+        if (votedSong1.count != votedSong2.count) {
+          return votedSong2.count - votedSong1.count
         }
         if (votedSong1.song.title < votedSong2.song.title) {
           return -1
