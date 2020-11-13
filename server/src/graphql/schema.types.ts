@@ -18,7 +18,7 @@ export interface Scalars {
 export interface Query {
   __typename?: 'Query'
   party?: Maybe<Party>
-  songs: Array<Song>
+  songs?: Maybe<Array<Song>>
 }
 
 export interface QueryPartyArgs {
@@ -54,8 +54,8 @@ export interface Party {
   password?: Maybe<Scalars['String']>
   latestTime: Scalars['String']
   currentSong?: Maybe<Song>
-  votedSongs: Array<VotedSong>
-  playedSongs: Array<PlayedSong>
+  votedSongs?: Maybe<Array<VotedSong>>
+  playedSongs?: Maybe<Array<PlayedSong>>
 }
 
 export interface VotedSong {
@@ -188,7 +188,7 @@ export type QueryResolvers<
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = {
   party?: Resolver<Maybe<ResolversTypes['Party']>, ParentType, ContextType, RequireFields<QueryPartyArgs, 'partyName'>>
-  songs?: Resolver<Array<ResolversTypes['Song']>, ParentType, ContextType>
+  songs?: Resolver<Maybe<Array<ResolversTypes['Song']>>, ParentType, ContextType>
 }
 
 export type MutationResolvers<
@@ -224,8 +224,8 @@ export type PartyResolvers<
   password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   latestTime?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   currentSong?: Resolver<Maybe<ResolversTypes['Song']>, ParentType, ContextType>
-  votedSongs?: Resolver<Array<ResolversTypes['VotedSong']>, ParentType, ContextType>
-  playedSongs?: Resolver<Array<ResolversTypes['PlayedSong']>, ParentType, ContextType>
+  votedSongs?: Resolver<Maybe<Array<ResolversTypes['VotedSong']>>, ParentType, ContextType>
+  playedSongs?: Resolver<Maybe<Array<ResolversTypes['PlayedSong']>>, ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType>
 }
 

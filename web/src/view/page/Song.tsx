@@ -1,10 +1,16 @@
+import { useMutation } from '@apollo/client'
 import { Button, Card, CardContent, Grid, makeStyles, Typography } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import * as React from 'react'
-
+import { VoteSong, VoteSongVariables } from '../../graphql/query.gen'
+import { voteSongMutation } from './mutateParty'
 interface SongProps {
   title: string
   artist: string
+  album: string
+  id: number
+  partyId: number
+  refetchQuery: () => void
 }
 
 // custom styling to override Material UI's default styles
@@ -44,10 +50,14 @@ const useStyles = makeStyles({
 
 export function Song(props: SongProps) {
   const classes = useStyles()
+  //const [refresh, setRefresh] = useState(0)
+  const [addVote] = useMutation<VoteSong, VoteSongVariables>(voteSongMutation, {
+    onCompleted: props.refetchQuery,
+    onError: err => console.log(`voteSongMutation error: \n${err}`),
+  })
 
   function voteSong() {
-    // TODO: implement vote for song functionality
-    window.alert('Voted for song')
+    void addVote({ variables: { partyId: props.partyId, songId: props.id } })
   }
 
   return (
@@ -61,7 +71,7 @@ export function Song(props: SongProps) {
             </Typography>
             <Typography className={classes.songTitle}>{props.title}</Typography>
             <Typography variant="body2" className={classes.songInfo}>
-              Album Name
+              {props.album === null ? 'No album specified' : props.album}
             </Typography>
           </Grid>
 

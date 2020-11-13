@@ -4,6 +4,8 @@ import * as React from 'react'
 interface SongProps {
   title: string
   artist: string
+  album: string
+  count: number
 }
 
 // custom styling to override Material UI's default styles
@@ -37,7 +39,6 @@ const useStyles = makeStyles({
 
 export function VotedSong(props: SongProps) {
   const classes = useStyles()
-
   return (
     <Card className={classes.card}>
       <CardContent className={classes.cardContent}>
@@ -49,13 +50,13 @@ export function VotedSong(props: SongProps) {
             </Typography>
             <Typography className={classes.songTitle}>{props.title}</Typography>
             <Typography variant="body2" className={classes.songInfo}>
-              Album Name
+              {props.album === null ? 'No album specified' : props.album}
             </Typography>
           </Grid>
 
           {/* Vote Count */}
           <Grid item xs={2} className={classes.votes}>
-            189 <br /> Votes
+            {props.count} <br /> Votes
           </Grid>
         </Grid>
       </CardContent>

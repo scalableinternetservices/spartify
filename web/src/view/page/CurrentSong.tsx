@@ -1,6 +1,17 @@
+import { useMutation } from '@apollo/client'
 import { Card, CardContent, Grid, IconButton, makeStyles, Typography } from '@material-ui/core'
 import SkipNextIcon from '@material-ui/icons/SkipNext'
 import * as React from 'react'
+import { NextSong, NextSongVariables } from '../../graphql/query.gen'
+import { nextSongMutation } from './mutateParty'
+
+interface CurrentSongProps {
+  title: string
+  artist: string
+  album: string
+  partyId: number
+  refetchQuery: () => void
+}
 
 // custom styling to override Material UI's default styles
 const useStyles = makeStyles({
@@ -36,12 +47,14 @@ const useStyles = makeStyles({
   },
 })
 
-export function CurrentSong() {
+export function CurrentSong(props: CurrentSongProps) {
   const classes = useStyles()
-
+  const [addNext] = useMutation<NextSong, NextSongVariables>(nextSongMutation, {
+    onCompleted: props.refetchQuery,
+    onError: err => console.log(`nextSongMutation error: \n${err}`),
+  })
   function nextSong() {
-    // TODO: implement skip song functionality
-    window.alert('Skipped song')
+    void addNext({ variables: { partyId: props.partyId } })
   }
 
   return (
@@ -51,11 +64,11 @@ export function CurrentSong() {
           {/* Song Info */}
           <Grid item xs={10}>
             <Typography variant="body2" className={classes.songInfo}>
-              Artist Name
+              {props.artist}
             </Typography>
-            <Typography className={classes.songTitle}>Song Name</Typography>
+            <Typography className={classes.songTitle}>{props.title}</Typography>
             <Typography variant="body2" className={classes.songInfo}>
-              Album Name
+              {props.album}
             </Typography>
           </Grid>
 

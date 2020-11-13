@@ -24,7 +24,7 @@ type Query {
   party (partyName: String!, partyPassword: String): Party
 
   # Returns all Song sorted by song title.
-  songs: [Song!]!
+  songs: [Song!]
 }
 
 type Mutation {
@@ -63,10 +63,10 @@ type Party {
   currentSong: Song
 
   # All VotedSong for this Party in order of decreasing VotedSong.count.
-  votedSongs: [VotedSong!]!
+  votedSongs: [VotedSong!]
 
   # All PlayedSong for this Party in order of decreasing PlayedSong.seq.
-  playedSongs: [PlayedSong!]!
+  playedSongs: [PlayedSong!]
 }
 
 type VotedSong {
