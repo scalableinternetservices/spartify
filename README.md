@@ -9,6 +9,31 @@ Spartify is a crowd-voting app that allows users to create and join a party to v
 | Andy Zeff | Kathy Daniels | Rafael Ning | Rohan Khajuria |
 | [@apzsfo](https://github.com/apzsfo) | [@danielskathyd](https://github.com/danielskathyd) | [@rning](https://github.com/rning) | [@Rohanator9000](https://github.com/Rohanator9000) |
 
+## How to load test
+
+We will use k6 primarily and tsung secondarily, and we'll ignore this project's `server/src/loadtest/runner.ts` and `server/src/loadtest/userScript.ts`.
+
+For any scaling optimization changes, we need to load test with k6 and tsung before and after each change to generate data for our final paper and presentation. The data will be output in the console by the load testing tool and in [Spartify's Honeycomb](https://ui.honeycomb.io/spartify/datasets/bespin).
+
+The load tests will presumably differ based on the local machine it's being run on, so we'll probably have to just keep track of the last commit for each change and run all the load testing once we're done making the scaling optimization changes.
+Put the load test data results in this [Google Doc](https://docs.google.com/document/d/1HhjBHxyCX8krW-1vsyV2l2RzJ0PhOfAvM1HfF5yqkig/edit).
+
+### k6
+
+First, [install k6](https://k6.io/docs/getting-started/installation). E.g. on Mac, run `brew install k6`.
+
+Run the load test on `http://localhost:3000`:
+`npm run lt:k6`
+which runs the command
+`k6 run server/src/loadtest/k6_script.js`
+which contains multiple scenarios.
+
+### tsung
+
+TODO
+
+# Class Starter Project README
+
 ## Dependencies
 
 For the [Quickstart](https://github.com/rothfels/bespin#Quickstart), you will need:
