@@ -53,9 +53,15 @@ const useStyles = makeStyles({
     fontWeight: 'bold',
   },
   paper: {
-    padding: 1,
     marginTop: 20,
+    paddingBottom: 10,
     borderRadius: 20,
+  },
+  placeholderText: {
+    textAlign: 'center',
+    marginTop: 15,
+    color: '#66928f',
+    fontSize: 16,
   },
 })
 
@@ -95,7 +101,8 @@ export function PartyPage(props: PartyPageProps) {
   // Song Library column - displays all available songs to vote for
   const library = (
     <Paper className={classes.paper}>
-      <GridList cellHeight={90} cols={1} style={{ height: 600 }}>
+      <GridList cellHeight={90} cols={1} style={{ maxHeight: 600 }}>
+        {songList.length == 0 && <p className={classes.placeholderText}>No songs were found in library</p>}
         {songList.map((song, i) => (
           <GridListTile key={i} cols={1}>
             <Song
@@ -116,7 +123,8 @@ export function PartyPage(props: PartyPageProps) {
   // Queue column - displays songs with votes in decreasing order
   const queue = (
     <Paper className={classes.paper} style={{ backgroundColor: '434343' }}>
-      <GridList cellHeight={90} cols={1} style={{ height: 600 }}>
+      <GridList cellHeight={90} cols={1} style={{ maxHeight: 600 }}>
+        {votedSongList.length == 0 && <p className={classes.placeholderText}>No voted songs</p>}
         {votedSongList.map((song, i) => (
           <GridListTile key={i} cols={1}>
             <VotedSong key={i} title={song.title} artist={song.artist} album={song.album} count={song.count} />
@@ -129,7 +137,8 @@ export function PartyPage(props: PartyPageProps) {
   // Listening History column - displays previously played songs in the current party
   const history = (
     <Paper className={classes.paper}>
-      <GridList cellHeight={90} cols={1} style={{ height: 600 }}>
+      <GridList cellHeight={90} cols={1} style={{ maxHeight: 600 }}>
+        {playedSongList.length == 0 && <p className={classes.placeholderText}>No song history</p>}
         {playedSongList.map((song, i) => (
           <GridListTile key={i} cols={1}>
             <PlayedSong key={i} title={song.title} artist={song.artist} album={song.album} id={song.id} />
