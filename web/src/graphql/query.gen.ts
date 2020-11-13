@@ -162,19 +162,9 @@ export interface CreatePartyVariables {
 // GraphQL mutation operation: VoteSong
 // ====================================================
 
-export interface VoteSong_vote_song {
-  __typename: "Song";
-  id: number;
-  title: string;
-  artist: string;
-  album: string | null;
-}
-
 export interface VoteSong_vote {
   __typename: "VotedSong";
   id: number;
-  song: VoteSong_vote_song;
-  count: number;
 }
 
 export interface VoteSong {
@@ -184,6 +174,28 @@ export interface VoteSong {
 export interface VoteSongVariables {
   partyId: number;
   songId: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: NextSong
+// ====================================================
+
+export interface NextSong_nextSong {
+  __typename: "Party";
+  id: number;
+}
+
+export interface NextSong {
+  nextSong: NextSong_nextSong | null;
+}
+
+export interface NextSongVariables {
+  partyId: number;
 }
 
 /* tslint:disable */
