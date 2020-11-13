@@ -97,9 +97,10 @@ export function HomePage(props: HomePageProps) {
 
   // Use createParty mutation to create and join a new party
   function handleSubmit() {
-    // Reject empty party name
+    // Reject empty party name. The API allows an empty party name, but we decide in the frontend that it's not allowed.
     if (name == '') {
       setError({ createError: true, joinError: false })
+      return
     }
     // Create and join a new party
     createParty(getApolloClient(), name, password)
