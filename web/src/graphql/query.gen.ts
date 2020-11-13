@@ -134,6 +134,7 @@ export interface CreateParty_createParty_playedSongs {
 }
 
 export interface CreateParty_createParty {
+<<<<<<< HEAD
   __typename: 'Party'
   id: number
   name: string
@@ -142,6 +143,16 @@ export interface CreateParty_createParty {
   currentSong: CreateParty_createParty_currentSong | null
   votedSongs: CreateParty_createParty_votedSongs[]
   playedSongs: CreateParty_createParty_playedSongs[]
+=======
+  __typename: "Party";
+  id: number;
+  name: string;
+  password: string | null;
+  latestTime: string;
+  currentSong: CreateParty_createParty_currentSong | null;
+  votedSongs: CreateParty_createParty_votedSongs[] | null;
+  playedSongs: CreateParty_createParty_playedSongs[] | null;
+>>>>>>> 1e04ecec24e222ea67c3e6945f67105169e29cf8
 }
 
 export interface CreateParty {
@@ -159,6 +170,54 @@ export interface CreatePartyVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+<<<<<<< HEAD
+=======
+// GraphQL mutation operation: VoteSong
+// ====================================================
+
+export interface VoteSong_vote {
+  __typename: "VotedSong";
+  id: number;
+}
+
+export interface VoteSong {
+  vote: VoteSong_vote | null;
+}
+
+export interface VoteSongVariables {
+  partyId: number;
+  songId: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: NextSong
+// ====================================================
+
+export interface NextSong_nextSong {
+  __typename: "Party";
+  id: number;
+}
+
+export interface NextSong {
+  nextSong: NextSong_nextSong | null;
+}
+
+export interface NextSongVariables {
+  partyId: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+>>>>>>> 1e04ecec24e222ea67c3e6945f67105169e29cf8
 // GraphQL fragment: Song
 // ====================================================
 
