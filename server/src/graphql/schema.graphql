@@ -44,7 +44,7 @@ type Mutation {
   nextSong(partyId: Int!): Party
 }
 
-type Party  {
+type Party {
   id: Int!
 
   # The name of this Party that was inputted by the party creator.
@@ -78,7 +78,7 @@ type VotedSong {
   # The Song that this VotedSong is for.
   song: Song!
 
-  # The count of votes for this VotedSong.
+  # The number of votes for this VotedSong.
   # Should always be >= 1, as a played song should have its VotedSong entry deleted.
   count: Int!
 }

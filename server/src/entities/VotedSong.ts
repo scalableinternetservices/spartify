@@ -9,9 +9,9 @@ export class VotedSong extends BaseEntity {
   id: number
 
   @Column()
-  votes: number
+  count: number
 
-  @ManyToOne(() => Song)
+  @ManyToOne(() => Song, { eager: true })
   song: Song
 
   @ManyToOne(() => Party, party => party.votedSongs)
@@ -21,11 +21,11 @@ export class VotedSong extends BaseEntity {
     super()
     this.song = song
     this.party = party
-    this.votes = 1
+    this.count = 1
   }
 
   public async incrementVote() {
-    ++this.votes
+    ++this.count
     await this.save()
   }
 }

@@ -6,7 +6,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   Unique,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from 'typeorm'
 import { PlayedSong } from './PlayedSong'
 import { Song } from './Song'
@@ -85,7 +85,7 @@ export class Party extends BaseEntity {
   }
 
   private async getHighestVotedSong() {
-    return VotedSong.findOne({ where: { party: this }, order: { votes: 'DESC' } })
+    return VotedSong.findOne({ where: { party: this }, order: { count: 'DESC' } })
   }
 
   private async getNextSequenceNumber() {
