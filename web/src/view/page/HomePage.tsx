@@ -67,6 +67,7 @@ const useStyles = makeStyles(theme => ({
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function HomePage(props: HomePageProps) {
+  const classes = useStyles()
   // partyNameHandler is a prop passed in by AppBody which is used to lift state.
   // This is so we can pass the party name into <PartyPage />
   const { partyNameHandler, partyPasswordHandler } = props
@@ -74,8 +75,8 @@ export function HomePage(props: HomePageProps) {
   const [password, setPassword] = useState('')
   const [isCreatePage, setCreate] = useState(false) // Checks for create page popup
   const [isJoinPage, setLogin] = useState(true) // Checks for join page popup
-  const classes = useStyles()
-  // const [getSong, { loading }]
+  const [{ createError, joinError }, setError] = useState({ createError: false, joinError: false })
+
   // Sets party name to value entered in text field
   const handleName = (e: any) => {
     setName(e.target.value)
@@ -89,24 +90,20 @@ export function HomePage(props: HomePageProps) {
   }
 
   // Use createParty mutation to create and join a new party
-  // Call toParty() on success to join the newly created party
-  const [{ submitted }, setSubmitted] = useState({ submitting: false, submitted: false })
-  const [createError, setCreateError] = useState(false)
   function handleSubmit() {
-    setSubmitted({ submitting: true, submitted: false })
+    // Reject empty party name
+    if (name == '') {
+      setError({ createError: true, joinError: false })
+    }
+    // Create and join a new party
     createParty(getApolloClient(), name, password)
       .then(() => {
-        setSubmitted({ submitted: true, submitting: false })
-        toParty()
+        void navigate(getPath(Route.PARTY))
       })
       .catch(err => {
         handleError(err)
-        setSubmitted({ submitted: false, submitting: false })
-        setCreateError(true)
+        setError({ createError: true, joinError: false })
       })
-  }
-  if (submitted) {
-    console.log('submitted')
   }
 
   // Use useLazyQuery() to execute a query at a time other than component render (which is when useQuery() executes).
@@ -115,8 +112,19 @@ export function HomePage(props: HomePageProps) {
     variables: { partyName: name, partyPassword: password },
   })
 
-  if (data?.party) {
-    void navigate(getPath(Route.PARTY))
+  function joinParty() {
+    // Reject empty party name
+    if (name == '') {
+      setError({ createError: false, joinError: true })
+    } else {
+      toParty()
+      // Verify existence of party using data returned from toParty()
+      if (!data?.party) {
+        setError({ createError: false, joinError: true })
+      } else {
+        void navigate(getPath(Route.PARTY))
+      }
+    }
   }
 
   function clearFields() {
@@ -124,6 +132,7 @@ export function HomePage(props: HomePageProps) {
     setPassword('')
     partyNameHandler('')
     partyPasswordHandler('')
+    setError({ createError: false, joinError: false })
   }
 
   // Button that users select to create a party
@@ -186,7 +195,7 @@ export function HomePage(props: HomePageProps) {
             style={{ background: '#659383', left: '80px', marginTop: '20px', fontWeight: 'bold' }}
             className={classes.button}
             onClick={() => {
-              isCreatePage ? handleSubmit() : toParty()
+              isCreatePage ? handleSubmit() : joinParty()
             }}
           >
             <ul>
@@ -220,7 +229,12 @@ export function HomePage(props: HomePageProps) {
       {/* Popups only appear if the join or create buttons have been pressed */}
       {isJoinPage && popup('Join a party', 'Join the party!')}
       {isCreatePage && popup('Create a party', 'Start the party!')}
-      {createError && <p className={classes.errorText}>Looks like that party name already exists.</p>}
+      {createError && (
+        <p className={classes.errorText}>
+          Looks like there was an issue creating your party. The name may already exist.
+        </p>
+      )}
+      {joinError && <p className={classes.errorText}>Looks like that party may not exist.</p>}
     </>
   )
 }
