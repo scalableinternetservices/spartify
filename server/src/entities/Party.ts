@@ -6,7 +6,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   Unique,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from 'typeorm'
 import { PlayedSong } from './PlayedSong'
 import { Song } from './Song'
@@ -28,7 +28,7 @@ export class Party extends BaseEntity {
   @UpdateDateColumn()
   latestTime: Date
 
-  @ManyToOne(() => Song, { nullable: true })
+  @ManyToOne(() => Song, { eager: true, nullable: true })
   currentSong: Song | null
 
   @OneToMany(() => VotedSong, votedSong => votedSong.party, { eager: true, cascade: ['remove'] })
