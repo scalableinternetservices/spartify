@@ -1311,7 +1311,7 @@
             "deprecationReason": null
           },
           {
-            "name": "seq",
+            "name": "sequenceNumber",
             "description": null,
             "args": [],
             "type": {

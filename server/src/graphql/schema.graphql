@@ -93,7 +93,7 @@ type PlayedSong {
   song: Song!
 
   # The sequence number of this PlayedSong, with each Party's song history sequency number starting from 0.
-  seq: Int!
+  sequenceNumber: Int!
 }
 
 type Song {

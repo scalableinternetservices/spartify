@@ -6,7 +6,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   Unique,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from 'typeorm'
 import { PlayedSong } from './PlayedSong'
 import { Song } from './Song'
@@ -71,6 +71,7 @@ export class Party extends BaseEntity {
     if (this.currentSong) {
       const newPlayedSong = new PlayedSong(this.currentSong, this, await this.getNextSequenceNumber())
       this.currentSong = null
+      this.playedSongs.push(newPlayedSong)
       await Promise.all([newPlayedSong.save(), this.save()])
     }
   }
@@ -111,6 +112,6 @@ export class Party extends BaseEntity {
 
   private async getNextSequenceNumber() {
     const latestSong = await PlayedSong.findOne({ where: { party: this }, order: { sequenceNumber: 'DESC' } })
-    return latestSong ? latestSong.sequenceNumber : 0
+    return latestSong ? latestSong.sequenceNumber + 1 : 0
   }
 }

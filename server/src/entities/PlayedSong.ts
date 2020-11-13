@@ -11,10 +11,10 @@ export class PlayedSong extends BaseEntity {
   @Column()
   sequenceNumber: number
 
-  @ManyToOne(() => Song, { eager: true })
+  @ManyToOne(() => Song, { eager: true, nullable: false })
   song: Song
 
-  @ManyToOne(() => Party, party => party.playedSongs)
+  @ManyToOne(() => Party, party => party.playedSongs, { nullable: false })
   party: Party
 
   constructor(song: Song, party: Party, sequenceNumber: number) {
