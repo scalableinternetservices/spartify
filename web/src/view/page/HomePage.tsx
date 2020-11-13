@@ -114,16 +114,17 @@ export function HomePage(props: HomePageProps) {
 
   // Use useLazyQuery() to execute a query at a time other than component render (which is when useQuery() executes).
   // TODO: Currently, the party query is executed here and in PartyPage. A future optimization can be to prevent this.
-  const [toParty, { data }] = useLazyQuery<FetchParty, FetchPartyVariables>(fetchParty, {
+  const [joinParty, { data }] = useLazyQuery<FetchParty, FetchPartyVariables>(fetchParty, {
     variables: { partyName: name, partyPassword: password },
+    onCompleted: joinPartyCallback,
+    onError: err => console.log(`fetchParty error: \n${err}`),
   })
 
-  function joinParty() {
+  function joinPartyCallback() {
     // Reject empty party name
     if (name == '') {
       setError({ createError: false, joinError: true })
     } else {
-      toParty()
       // Verify existence of party using data returned from toParty()
       if (!data?.party) {
         setError({ createError: false, joinError: true })
