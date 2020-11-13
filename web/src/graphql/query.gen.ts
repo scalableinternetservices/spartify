@@ -8,15 +8,15 @@
 // ====================================================
 
 export interface AllSongs_songs {
-  __typename: "Song";
-  id: number;
-  title: string;
-  artist: string;
-  album: string | null;
+  __typename: 'Song'
+  id: number
+  title: string
+  artist: string
+  album: string | null
 }
 
 export interface AllSongs {
-  songs: AllSongs_songs[] | null;
+  songs: AllSongs_songs[] | null
 }
 
 /* tslint:disable */
@@ -29,61 +29,61 @@ export interface AllSongs {
 // ====================================================
 
 export interface FetchParty_party_currentSong {
-  __typename: "Song";
-  id: number;
-  title: string;
-  artist: string;
-  album: string | null;
+  __typename: 'Song'
+  id: number
+  title: string
+  artist: string
+  album: string | null
 }
 
 export interface FetchParty_party_votedSongs_song {
-  __typename: "Song";
-  id: number;
-  title: string;
-  artist: string;
-  album: string | null;
+  __typename: 'Song'
+  id: number
+  title: string
+  artist: string
+  album: string | null
 }
 
 export interface FetchParty_party_votedSongs {
-  __typename: "VotedSong";
-  id: number;
-  song: FetchParty_party_votedSongs_song;
-  count: number;
+  __typename: 'VotedSong'
+  id: number
+  song: FetchParty_party_votedSongs_song
+  count: number
 }
 
 export interface FetchParty_party_playedSongs_song {
-  __typename: "Song";
-  id: number;
-  title: string;
-  artist: string;
-  album: string | null;
+  __typename: 'Song'
+  id: number
+  title: string
+  artist: string
+  album: string | null
 }
 
 export interface FetchParty_party_playedSongs {
-  __typename: "PlayedSong";
-  id: number;
-  song: FetchParty_party_playedSongs_song;
-  seq: number;
+  __typename: 'PlayedSong'
+  id: number
+  song: FetchParty_party_playedSongs_song
+  seq: number
 }
 
 export interface FetchParty_party {
-  __typename: "Party";
-  id: number;
-  name: string;
-  password: string | null;
-  latestTime: string;
-  currentSong: FetchParty_party_currentSong | null;
-  votedSongs: FetchParty_party_votedSongs[] | null;
-  playedSongs: FetchParty_party_playedSongs[] | null;
+  __typename: 'Party'
+  id: number
+  name: string
+  password: string | null
+  latestTime: string
+  currentSong: FetchParty_party_currentSong | null
+  votedSongs: FetchParty_party_votedSongs[] | null
+  playedSongs: FetchParty_party_playedSongs[] | null
 }
 
 export interface FetchParty {
-  party: FetchParty_party | null;
+  party: FetchParty_party | null
 }
 
 export interface FetchPartyVariables {
-  partyName: string;
-  partyPassword?: string | null;
+  partyName: string
+  partyPassword?: string | null
 }
 
 /* tslint:disable */
@@ -96,94 +96,61 @@ export interface FetchPartyVariables {
 // ====================================================
 
 export interface CreateParty_createParty_currentSong {
-  __typename: "Song";
-  id: number;
-  title: string;
-  artist: string;
-  album: string | null;
+  __typename: 'Song'
+  id: number
+  title: string
+  artist: string
+  album: string | null
 }
 
 export interface CreateParty_createParty_votedSongs_song {
-  __typename: "Song";
-  id: number;
-  title: string;
-  artist: string;
-  album: string | null;
+  __typename: 'Song'
+  id: number
+  title: string
+  artist: string
+  album: string | null
 }
 
 export interface CreateParty_createParty_votedSongs {
-  __typename: "VotedSong";
-  id: number;
-  song: CreateParty_createParty_votedSongs_song;
-  count: number;
+  __typename: 'VotedSong'
+  id: number
+  song: CreateParty_createParty_votedSongs_song
+  count: number
 }
 
 export interface CreateParty_createParty_playedSongs_song {
-  __typename: "Song";
-  id: number;
-  title: string;
-  artist: string;
-  album: string | null;
+  __typename: 'Song'
+  id: number
+  title: string
+  artist: string
+  album: string | null
 }
 
 export interface CreateParty_createParty_playedSongs {
-  __typename: "PlayedSong";
-  id: number;
-  song: CreateParty_createParty_playedSongs_song;
-  seq: number;
+  __typename: 'PlayedSong'
+  id: number
+  song: CreateParty_createParty_playedSongs_song
+  seq: number
 }
 
 export interface CreateParty_createParty {
-  __typename: "Party";
-  id: number;
-  name: string;
-  password: string | null;
-  latestTime: string;
-  currentSong: CreateParty_createParty_currentSong | null;
-  votedSongs: CreateParty_createParty_votedSongs[] | null;
-  playedSongs: CreateParty_createParty_playedSongs[] | null;
+  __typename: 'Party'
+  id: number
+  name: string
+  password: string | null
+  latestTime: string
+  currentSong: CreateParty_createParty_currentSong | null
+  votedSongs: CreateParty_createParty_votedSongs[]
+  playedSongs: CreateParty_createParty_playedSongs[]
 }
 
 export interface CreateParty {
-  createParty: CreateParty_createParty | null;
+  createParty: CreateParty_createParty | null
 }
 
 export interface CreatePartyVariables {
-  partyName: string;
-  partyPassword?: string | null;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: VoteSong
-// ====================================================
-
-export interface VoteSong_vote_song {
-  __typename: "Song";
-  id: number;
-  title: string;
-  artist: string;
-  album: string | null;
-}
-
-export interface VoteSong_vote {
-  __typename: "VotedSong";
-  id: number;
-  song: VoteSong_vote_song;
-  count: number;
-}
-
-export interface VoteSong {
-  vote: VoteSong_vote | null;
-}
-
-export interface VoteSongVariables {
-  partyId: number;
-  songId: number;
+  partyName: string
+  partyPassword?: string | null
 }
 
 /* tslint:disable */
@@ -196,11 +163,11 @@ export interface VoteSongVariables {
 // ====================================================
 
 export interface Song {
-  __typename: "Song";
-  id: number;
-  title: string;
-  artist: string;
-  album: string | null;
+  __typename: 'Song'
+  id: number
+  title: string
+  artist: string
+  album: string | null
 }
 
 /* tslint:disable */
@@ -213,18 +180,18 @@ export interface Song {
 // ====================================================
 
 export interface VotedSong_song {
-  __typename: "Song";
-  id: number;
-  title: string;
-  artist: string;
-  album: string | null;
+  __typename: 'Song'
+  id: number
+  title: string
+  artist: string
+  album: string | null
 }
 
 export interface VotedSong {
-  __typename: "VotedSong";
-  id: number;
-  song: VotedSong_song;
-  count: number;
+  __typename: 'VotedSong'
+  id: number
+  song: VotedSong_song
+  count: number
 }
 
 /* tslint:disable */
@@ -237,18 +204,18 @@ export interface VotedSong {
 // ====================================================
 
 export interface PlayedSong_song {
-  __typename: "Song";
-  id: number;
-  title: string;
-  artist: string;
-  album: string | null;
+  __typename: 'Song'
+  id: number
+  title: string
+  artist: string
+  album: string | null
 }
 
 export interface PlayedSong {
-  __typename: "PlayedSong";
-  id: number;
-  song: PlayedSong_song;
-  seq: number;
+  __typename: 'PlayedSong'
+  id: number
+  song: PlayedSong_song
+  seq: number
 }
 
 /* tslint:disable */
@@ -261,52 +228,52 @@ export interface PlayedSong {
 // ====================================================
 
 export interface Party_currentSong {
-  __typename: "Song";
-  id: number;
-  title: string;
-  artist: string;
-  album: string | null;
+  __typename: 'Song'
+  id: number
+  title: string
+  artist: string
+  album: string | null
 }
 
 export interface Party_votedSongs_song {
-  __typename: "Song";
-  id: number;
-  title: string;
-  artist: string;
-  album: string | null;
+  __typename: 'Song'
+  id: number
+  title: string
+  artist: string
+  album: string | null
 }
 
 export interface Party_votedSongs {
-  __typename: "VotedSong";
-  id: number;
-  song: Party_votedSongs_song;
-  count: number;
+  __typename: 'VotedSong'
+  id: number
+  song: Party_votedSongs_song
+  count: number
 }
 
 export interface Party_playedSongs_song {
-  __typename: "Song";
-  id: number;
-  title: string;
-  artist: string;
-  album: string | null;
+  __typename: 'Song'
+  id: number
+  title: string
+  artist: string
+  album: string | null
 }
 
 export interface Party_playedSongs {
-  __typename: "PlayedSong";
-  id: number;
-  song: Party_playedSongs_song;
-  seq: number;
+  __typename: 'PlayedSong'
+  id: number
+  song: Party_playedSongs_song
+  seq: number
 }
 
 export interface Party {
-  __typename: "Party";
-  id: number;
-  name: string;
-  password: string | null;
-  latestTime: string;
-  currentSong: Party_currentSong | null;
-  votedSongs: Party_votedSongs[] | null;
-  playedSongs: Party_playedSongs[] | null;
+  __typename: 'Party'
+  id: number
+  name: string
+  password: string | null
+  latestTime: string
+  currentSong: Party_currentSong | null
+  votedSongs: Party_votedSongs[] | null
+  playedSongs: Party_playedSongs[] | null
 }
 
 /* tslint:disable */
