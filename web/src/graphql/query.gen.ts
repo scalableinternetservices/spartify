@@ -60,10 +60,10 @@ export interface FetchParty_party_playedSongs_song {
 }
 
 export interface FetchParty_party_playedSongs {
-  __typename: 'PlayedSong'
-  id: number
-  song: FetchParty_party_playedSongs_song
-  seq: number
+  __typename: "PlayedSong";
+  id: number;
+  song: FetchParty_party_playedSongs_song;
+  sequenceNumber: number;
 }
 
 export interface FetchParty_party {
@@ -127,10 +127,10 @@ export interface CreateParty_createParty_playedSongs_song {
 }
 
 export interface CreateParty_createParty_playedSongs {
-  __typename: 'PlayedSong'
-  id: number
-  song: CreateParty_createParty_playedSongs_song
-  seq: number
+  __typename: "PlayedSong";
+  id: number;
+  song: CreateParty_createParty_playedSongs_song;
+  sequenceNumber: number;
 }
 
 export interface CreateParty_createParty {
@@ -257,10 +257,10 @@ export interface PlayedSong_song {
 }
 
 export interface PlayedSong {
-  __typename: 'PlayedSong'
-  id: number
-  song: PlayedSong_song
-  seq: number
+  __typename: "PlayedSong";
+  id: number;
+  song: PlayedSong_song;
+  sequenceNumber: number;
 }
 
 /* tslint:disable */
@@ -304,10 +304,10 @@ export interface Party_playedSongs_song {
 }
 
 export interface Party_playedSongs {
-  __typename: 'PlayedSong'
-  id: number
-  song: Party_playedSongs_song
-  seq: number
+  __typename: "PlayedSong";
+  id: number;
+  song: Party_playedSongs_song;
+  sequenceNumber: number;
 }
 
 export interface Party {

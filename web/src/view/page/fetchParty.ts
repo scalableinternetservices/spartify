@@ -36,7 +36,7 @@ export const fragmentPlayedSong = gql`
     song {
       ...Song
     }
-    seq
+    sequenceNumber
   }
 `
 

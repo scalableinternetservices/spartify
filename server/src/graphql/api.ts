@@ -54,6 +54,7 @@ export const graphqlRoot: Resolvers<Context> = {
     nextSong: async (_, { partyId }) => {
       const party = await Party.findOne(partyId)
       await party?.playNextSong()
+      await party?.reload()
       return party || null
     },
   },
