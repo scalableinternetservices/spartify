@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/client'
 import { Button, Card, CardContent, Grid, makeStyles, Typography } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import * as React from 'react'
+import { VoteSong, VoteSongVariables } from '../../graphql/query.gen'
 import { voteSongMutation } from './mutateParty'
 interface SongProps {
   title: string
@@ -50,11 +51,13 @@ const useStyles = makeStyles({
 export function Song(props: SongProps) {
   const classes = useStyles()
   //const [refresh, setRefresh] = useState(0)
-  const [addVote] = useMutation(voteSongMutation)
+  const [addVote] = useMutation<VoteSong, VoteSongVariables>(voteSongMutation, {
+    onCompleted: props.refetchQuery,
+    onError: err => console.log(`voteSongMutation error: \n${err}`),
+  })
 
   function voteSong() {
     void addVote({ variables: { partyId: props.partyId, songId: props.id } })
-    props.refetchQuery()
   }
 
   return (

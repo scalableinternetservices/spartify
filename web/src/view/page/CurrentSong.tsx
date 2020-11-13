@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/client'
 import { Card, CardContent, Grid, IconButton, makeStyles, Typography } from '@material-ui/core'
 import SkipNextIcon from '@material-ui/icons/SkipNext'
 import * as React from 'react'
+import { NextSong, NextSongVariables } from '../../graphql/query.gen'
 import { nextSongMutation } from './mutateParty'
 
 interface CurrentSongProps {
@@ -48,10 +49,12 @@ const useStyles = makeStyles({
 
 export function CurrentSong(props: CurrentSongProps) {
   const classes = useStyles()
-  const [addNext] = useMutation(nextSongMutation)
+  const [addNext] = useMutation<NextSong, NextSongVariables>(nextSongMutation, {
+    onCompleted: props.refetchQuery,
+    onError: err => console.log(`nextSongMutation error: \n${err}`),
+  })
   function nextSong() {
     void addNext({ variables: { partyId: props.partyId } })
-    props.refetchQuery()
   }
 
   return (

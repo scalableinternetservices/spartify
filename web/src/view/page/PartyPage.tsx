@@ -91,7 +91,7 @@ export function PartyPage(props: PartyPageProps) {
 
   console.log('songs', songs)
   console.log('partyInfo', partyInfo)
-  const { votedSongs, playedSongs } = partyInfo.party
+  const { votedSongs, playedSongs, currentSong } = partyInfo.party
   const votedSongList = votedSongs === null ? [] : createVoteList(votedSongs)
   // playedSongList still needs to be updated
   const playedSongList = playedSongs === null ? [] : createSongList(playedSongs)
@@ -163,9 +163,9 @@ export function PartyPage(props: PartyPageProps) {
           <Grid item xs={12} md={4} className={classes.songListColumn}>
             Now Playing
             <CurrentSong
-              title="Breathe"
-              artist="Catie Turner"
-              album="The Sad Vegan"
+              title={currentSong?.title || "Nothing's playing yet!"}
+              artist={currentSong?.artist || ''}
+              album={currentSong?.album || ''}
               partyId={partyId}
               refetchQuery={refetch}
             />
