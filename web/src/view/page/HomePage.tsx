@@ -22,6 +22,12 @@ const HEIGHT_DIFF = 36
 
 // Hook used to override Material-UI's Button class
 const useStyles = makeStyles(theme => ({
+  title: {
+    color: '#5aaea9',
+    marginTop: '-160px',
+    fontSize: '40px',
+    fontWeight: 'bold',
+  },
   button: {
     textTransform: 'none',
     fontWeight: 'bold',
@@ -216,22 +222,14 @@ export function HomePage(props: HomePageProps) {
       {join}
 
       {/* Title */}
-      <h1
-        style={{
-          color: '#5aaea9',
-          marginTop: '-160px',
-          fontSize: '40px',
-          fontWeight: 'bold',
-        }}
-      >
-        spartify
-      </h1>
+      <h1 className={classes.title}>spartify</h1>
       {/* Popups only appear if the join or create buttons have been pressed */}
       {isJoinPage && popup('Join a party', 'Join the party!')}
       {isCreatePage && popup('Create a party', 'Start the party!')}
+      {/* Either creation or join error may appear depending on user input */}
       {createError && (
         <p className={classes.errorText}>
-          Looks like there was an issue creating your party. The name may already exist.
+          Looks like there was an issue creating your party. That name may already exist.
         </p>
       )}
       {joinError && <p className={classes.errorText}>Looks like that party may not exist.</p>}

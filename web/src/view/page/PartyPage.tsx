@@ -1,5 +1,6 @@
 import { useQuery } from '@apollo/client'
-import { Grid, makeStyles, Paper } from '@material-ui/core'
+import { Grid, GridList, makeStyles, Paper } from '@material-ui/core'
+import GridListTile from '@material-ui/core/GridListTile/GridListTile'
 import * as React from 'react'
 import { FetchParty, FetchPartyVariables } from '../../graphql/query.gen'
 import { CurrentSong } from './CurrentSong'
@@ -94,35 +95,47 @@ export function PartyPage(props: PartyPageProps) {
   // Song Library column - displays all available songs to vote for
   const library = (
     <Paper className={classes.paper}>
-      {songList.map((song, i) => (
-        <Song
-          key={i}
-          partyId={partyId}
-          title={song.title}
-          artist={song.artist}
-          album={song.album}
-          id={song.id}
-          refetchQuery={refetch}
-        />
-      ))}
+      <GridList cellHeight={90} cols={1} style={{ height: 600 }}>
+        {songList.map((song, i) => (
+          <GridListTile key={i} cols={1}>
+            <Song
+              key={i}
+              partyId={partyId}
+              title={song.title}
+              artist={song.artist}
+              album={song.album}
+              id={song.id}
+              refetchQuery={refetch}
+            />
+          </GridListTile>
+        ))}
+      </GridList>
     </Paper>
   )
 
   // Queue column - displays songs with votes in decreasing order
   const queue = (
     <Paper className={classes.paper} style={{ backgroundColor: '434343' }}>
-      {votedSongList.map((song, i) => (
-        <VotedSong key={i} title={song.title} artist={song.artist} album={song.album} count={song.count} />
-      ))}
+      <GridList cellHeight={90} cols={1} style={{ height: 600 }}>
+        {votedSongList.map((song, i) => (
+          <GridListTile key={i} cols={1}>
+            <VotedSong key={i} title={song.title} artist={song.artist} album={song.album} count={song.count} />
+          </GridListTile>
+        ))}
+      </GridList>
     </Paper>
   )
 
   // Listening History column - displays previously played songs in the current party
   const history = (
     <Paper className={classes.paper}>
-      {playedSongList.map((song, i) => (
-        <PlayedSong key={i} title={song.title} artist={song.artist} album={song.album} id={song.id} />
-      ))}
+      <GridList cellHeight={90} cols={1} style={{ height: 600 }}>
+        {playedSongList.map((song, i) => (
+          <GridListTile key={i} cols={1}>
+            <PlayedSong key={i} title={song.title} artist={song.artist} album={song.album} id={song.id} />
+          </GridListTile>
+        ))}
+      </GridList>
     </Paper>
   )
 
