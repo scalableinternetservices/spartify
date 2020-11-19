@@ -21,17 +21,7 @@ export const graphqlRoot: Resolvers<Context> = {
   Query: {
     party: async (_, { partyName, partyPassword }) => {
       const party = await Party.findOne({ name: partyName, password: partyPassword || null })
-
-      party?.votedSongs.sort((votedSong1, votedSong2) => {
-        if (votedSong1.count != votedSong2.count) {
-          return votedSong2.count - votedSong1.count
-        }
-        if (votedSong1.song.title < votedSong2.song.title) {
-          return -1
-        }
-        return 0
-      })
-
+      party?.sortVotedSongs()
       return party || null
     },
     songs: () => Song.find(),
@@ -40,6 +30,7 @@ export const graphqlRoot: Resolvers<Context> = {
     vote: async (_, { partyId, songId }) => {
       const party = await Party.findOne(partyId)
       const song = await Song.findOne(songId)
+
       if (party && song) {
         return party.voteForSong(song)
       } else {
@@ -49,12 +40,14 @@ export const graphqlRoot: Resolvers<Context> = {
     createParty: async (_, { partyName, partyPassword }) => {
       const party = await new Party(partyName, partyPassword || undefined).save()
       await party.reload() // We have to reload() because save() doesn't return the entire Party object.
+      party.sortVotedSongs()
       return party
     },
     nextSong: async (_, { partyId }) => {
       const party = await Party.findOne(partyId)
       await party?.playNextSong()
       await party?.reload()
+      party?.sortVotedSongs()
       return party || null
     },
   },
