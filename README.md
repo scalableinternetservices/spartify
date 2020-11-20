@@ -22,10 +22,22 @@ Put the load test data results in this [Google Doc](https://docs.google.com/docu
 
 First, [install k6](https://k6.io/docs/getting-started/installation). E.g. on Mac, run `brew install k6`.
 
+Then, be sure to run
+`docker-compose down`
+and
+`docker-compose up`
+before and between each test below, since the tests for the API make mutations that should affect performance.
+For example, the party creation and joining test has a phase that creates many parties before a phase that joins those parties, so failing to clear the database before running the test may cause errors and will affect the performance results.
+
 Run the load tests on `http://localhost:3000`:
+
 `npm run lt:k6:home`
 which runs the command
-`k6 run server/src/loadtest/k6_script_home_page.js`.
+`k6 run server/src/loadtest/k6_script_home_page.js`
+
+`npm run lt:k6:party`
+which runs the command
+`k6 run server/src/loadtest/k6_script_party_create_join.js`
 
 ### tsung
 
