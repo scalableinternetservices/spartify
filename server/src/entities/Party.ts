@@ -114,4 +114,16 @@ export class Party extends BaseEntity {
     const latestSong = await PlayedSong.findOne({ where: { party: this }, order: { sequenceNumber: 'DESC' } })
     return latestSong ? latestSong.sequenceNumber + 1 : 0
   }
+
+  public sortVotedSongs() {
+    this.votedSongs.sort((votedSong1, votedSong2) => {
+      if (votedSong1.count != votedSong2.count) {
+        return votedSong2.count - votedSong1.count
+      }
+      if (votedSong1.song.title < votedSong2.song.title) {
+        return -1
+      }
+      return 0
+    })
+  }
 }
