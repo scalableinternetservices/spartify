@@ -25,6 +25,72 @@ export interface AllSongs {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL subscription operation: PartySubscription
+// ====================================================
+
+export interface PartySubscription_partyUpdates_currentSong {
+  __typename: "Song";
+  id: number;
+  title: string;
+  artist: string;
+  album: string | null;
+}
+
+export interface PartySubscription_partyUpdates_votedSongs_song {
+  __typename: "Song";
+  id: number;
+  title: string;
+  artist: string;
+  album: string | null;
+}
+
+export interface PartySubscription_partyUpdates_votedSongs {
+  __typename: "VotedSong";
+  id: number;
+  song: PartySubscription_partyUpdates_votedSongs_song;
+  count: number;
+}
+
+export interface PartySubscription_partyUpdates_playedSongs_song {
+  __typename: "Song";
+  id: number;
+  title: string;
+  artist: string;
+  album: string | null;
+}
+
+export interface PartySubscription_partyUpdates_playedSongs {
+  __typename: "PlayedSong";
+  id: number;
+  song: PartySubscription_partyUpdates_playedSongs_song;
+  sequenceNumber: number;
+}
+
+export interface PartySubscription_partyUpdates {
+  __typename: "Party";
+  id: number;
+  name: string;
+  password: string | null;
+  latestTime: string;
+  currentSong: PartySubscription_partyUpdates_currentSong | null;
+  votedSongs: PartySubscription_partyUpdates_votedSongs[] | null;
+  playedSongs: PartySubscription_partyUpdates_playedSongs[] | null;
+}
+
+export interface PartySubscription {
+  partyUpdates: PartySubscription_partyUpdates | null;
+}
+
+export interface PartySubscriptionVariables {
+  partyId: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: FetchParty
 // ====================================================
 

@@ -58,6 +58,18 @@ export const fragmentParty = gql`
   }
 `
 
+export const subscribeParty = gql`
+  subscription PartySubscription($partyId: Int!) {
+    partyUpdates(partyId: $partyId) {
+      ...Party
+    }
+  }
+  ${fragmentParty}
+  ${fragmentSong}
+  ${fragmentVotedSong}
+  ${fragmentPlayedSong}
+`
+
 export const fetchParty = gql`
   query FetchParty($partyName: String!, $partyPassword: String) {
     party(partyName: $partyName, partyPassword: $partyPassword) {

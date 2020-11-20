@@ -98,6 +98,16 @@ export function PartyPage(props: PartyPageProps) {
   const songList = songs.songs === null ? [] : createSongList(songs.songs)
   const partyId = partyInfo.party.id === null ? 0 : partyInfo.party.id
 
+  // TODO: Replace refetch with party subscription
+  // const sub = useSubscription<PartySubscription, PartySubscriptionVariables>(subscribeParty, {
+  //   variables: { partyId },
+  // })
+  // useEffect(() => {
+  //   if (sub.data?.partyUpdates) {
+  //     console.log(sub.data)
+  //   }
+  // }, [sub.data])
+
   // Song Library column - displays all available songs to vote for
   const library = (
     <Paper className={classes.paper}>
