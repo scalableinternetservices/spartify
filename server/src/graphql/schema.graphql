@@ -11,12 +11,12 @@
 schema {
   query: Query
   mutation: Mutation
-  # subscription: Subscription
+  subscription: Subscription
 }
 
-# type Subscription {
-#   surveyUpdates (surveyId: Int!): Survey
-# }
+type Subscription {
+  partyUpdates (partyId: Int!): Party
+}
 
 type Query {
   # Returns a Party if one exists with the partyName, and its optional password matches the optional partyPassword.
