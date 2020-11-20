@@ -39,6 +39,10 @@ which runs the command
 which runs the command
 `k6 run server/src/loadtest/k6_script_party_create_join.js`
 
+`npm run lt:k6:vote`
+which runs the command
+`k6 run server/src/loadtest/k6_script_vote_next.js`
+
 ### tsung
 
 TODO

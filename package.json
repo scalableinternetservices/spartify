@@ -35,7 +35,8 @@
     "clean": "rm -rf server/bin",
     "build-storybook": "build-storybook",
     "lt:k6:home": "k6 run server/src/loadtest/k6_script_home_page.js",
-    "lt:k6:party": "k6 run server/src/loadtest/k6_script_party_create_join.js"
+    "lt:k6:party": "k6 run server/src/loadtest/k6_script_party_create_join.js",
+    "lt:k6:vote": "k6 run server/src/loadtest/k6_script_vote_next.js"
   },
   "dependencies": {
     "@apollo/client": "^3.2.1",
