@@ -39,6 +39,21 @@ function createVoteList(songArr: Array<any>) {
   })
 }
 
+// Creates a list of played songs
+function createPlayedList(songArr: Array<any>) {
+  return new Array<any>()
+    .concat(songArr)
+    .reverse()
+    .map((song: any) => {
+      return {
+        title: song.song.title,
+        artist: song.song.artist,
+        album: song.song.album,
+        id: song.song.id,
+      }
+    })
+}
+
 // custom styling to override Material UI's default styles
 const useStyles = makeStyles({
   partyName: {
@@ -70,6 +85,7 @@ export function PartyPage(props: PartyPageProps) {
   const classes = useStyles()
   const { loading: partyLoading, data: partyInfo, refetch } = useQuery<FetchParty, FetchPartyVariables>(fetchParty, {
     variables: { partyName: props.partyName, partyPassword: props.partyPassword },
+    pollInterval: 100,
   })
 
   const { loading: songLoading, data: songs } = useQuery(allSongs)
@@ -89,12 +105,9 @@ export function PartyPage(props: PartyPageProps) {
     return <div>This party does not exist</div>
   }
 
-  console.log('songs', songs)
-  console.log('partyInfo', partyInfo)
   const { votedSongs, playedSongs, currentSong } = partyInfo.party
   const votedSongList = votedSongs === null ? [] : createVoteList(votedSongs)
-  // playedSongList still needs to be updated
-  const playedSongList = playedSongs === null ? [] : createSongList(playedSongs)
+  const playedSongList = playedSongs === null ? [] : createPlayedList(playedSongs)
   const songList = songs.songs === null ? [] : createSongList(songs.songs)
   const partyId = partyInfo.party.id === null ? 0 : partyInfo.party.id
 
