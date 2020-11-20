@@ -41,14 +41,17 @@ function createVoteList(songArr: Array<any>) {
 
 // Creates a list of played songs
 function createPlayedList(songArr: Array<any>) {
-  return songArr.map((song: any) => {
-    return {
-      title: song.song.title,
-      artist: song.song.artist,
-      album: song.song.album,
-      id: song.song.id,
-    }
-  })
+  return new Array<any>()
+    .concat(songArr)
+    .reverse()
+    .map((song: any) => {
+      return {
+        title: song.song.title,
+        artist: song.song.artist,
+        album: song.song.album,
+        id: song.song.id,
+      }
+    })
 }
 
 // custom styling to override Material UI's default styles
