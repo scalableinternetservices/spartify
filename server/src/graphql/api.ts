@@ -47,11 +47,14 @@ export const graphqlRoot: Resolvers<Context> = {
       }
     },
     createParty: async (_, { partyName, partyPassword }) => {
-      return await new Party(partyName, partyPassword || undefined).save()
+      const party = await new Party(partyName, partyPassword || undefined).save()
+      await party.reload() // We have to reload() because save() doesn't return the entire Party object.
+      return party
     },
     nextSong: async (_, { partyId }) => {
       const party = await Party.findOne(partyId)
       await party?.playNextSong()
+      await party?.reload()
       return party || null
     },
   },
