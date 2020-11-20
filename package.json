@@ -34,7 +34,7 @@
     "gen:queryTypes": "apollo client:codegen --addTypename --target=typescript --outputFlat web/src/graphql/query.gen.ts",
     "clean": "rm -rf server/bin",
     "build-storybook": "build-storybook",
-    "lt:k6": "k6 run server/src/loadtest/k6_script.js"
+    "lt:k6:home": "k6 run server/src/loadtest/k6_script_home_page.js"
   },
   "dependencies": {
     "@apollo/client": "^3.2.1",

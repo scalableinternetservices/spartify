@@ -22,11 +22,10 @@ Put the load test data results in this [Google Doc](https://docs.google.com/docu
 
 First, [install k6](https://k6.io/docs/getting-started/installation). E.g. on Mac, run `brew install k6`.
 
-Run the load test on `http://localhost:3000`:
-`npm run lt:k6`
+Run the load tests on `http://localhost:3000`:
+`npm run lt:k6:home`
 which runs the command
-`k6 run server/src/loadtest/k6_script.js`
-which contains multiple scenarios.
+`k6 run server/src/loadtest/k6_script_home_page.js`.
 
 ### tsung
 
