@@ -5,7 +5,7 @@ variable "redis_host" {
 variable "honeycomb_key" {}
 
 variable "app_name" {
-  default = "bespin"
+  default = "spartify"
 }
 variable "mysql_port" {
   default = 3306

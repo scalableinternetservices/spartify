@@ -1,5 +1,5 @@
 variable "app_name" {
-  default = "bespin"
+  default = "spartify"
 }
 variable "subnet_group" {
   default = "redis-subnet"
