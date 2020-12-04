@@ -45,7 +45,21 @@ which runs the command
 
 ### tsung
 
-TODO
+First, [install tsung](http://tsung.erlang-projects.org/user_manual/installation.html). E.g. on Mac, run `brew install tsung`.
+
+Then, be sure to run
+`docker-compose down`
+and
+`docker-compose up`
+
+Run the load tests on `http://localhost:3000`:
+
+`npm run lt:tsung:gen`
+which runs the command
+`tsung -f server/src/loadtest/tsung_gen.xml -k start`
+
+View metrics at
+`localhost:8091`
 
 # Class Starter Project README
 
