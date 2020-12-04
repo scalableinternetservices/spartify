@@ -188,7 +188,10 @@ initORM()
   )
   .catch(err => console.error(err))
 
-setInterval(() => {
-  expensiveFunction()
-  console.log('Background process run succesfully.')
-}, Config.backgroundProcessInterval)
+// We use this flag so we can choose whether we want the background process running on the Node thread.
+if (Config.runBackgroundProcess) {
+  setInterval(() => {
+    expensiveFunction()
+    console.log('Background process run succesfully.')
+  }, Config.backgroundProcessInterval)
+}
