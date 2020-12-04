@@ -35,10 +35,10 @@ export class Party extends BaseEntity {
   @Column({ nullable: true })
   currentSongId: number
 
-  @OneToMany(() => VotedSong, votedSong => votedSong.party, { lazy: true, cascade: ['remove'] })
+  @OneToMany(() => VotedSong, votedSong => votedSong.party, { lazy: true, cascade: ['remove'], onDelete: 'CASCADE' })
   votedSongs: Promise<VotedSong[]>
 
-  @OneToMany(() => PlayedSong, playedSong => playedSong.party, { lazy: true, cascade: ['remove'] })
+  @OneToMany(() => PlayedSong, playedSong => playedSong.party, { lazy: true, cascade: ['remove'], onDelete: 'CASCADE' })
   playedSongs: Promise<PlayedSong[]>
 
   constructor(name: string, password?: string) {
@@ -60,15 +60,26 @@ export class Party extends BaseEntity {
 
   public async voteForSong(song: Song) {
     let votedSong = await VotedSong.findOne({ where: { songId: song.id, partyId: this.id } })
+    let votePromise: Promise<any>
 
     if (votedSong) {
-      await votedSong.incrementVote()
+      votePromise = votedSong.incrementVote()
     } else {
       votedSong = new VotedSong(song, this)
-      await votedSong.save()
+      votePromise = votedSong.save()
     }
 
+    await Promise.all([votePromise, this.updateLatestTime()])
+
     return votedSong
+  }
+
+  private async updateLatestTime() {
+    return getRepository(Party)
+      .createQueryBuilder('party')
+      .update({ latestTime: () => 'CURRENT_TIMESTAMP()' })
+      .where('id = :id', { id: this.id })
+      .execute()
   }
 
   private async removeCurrentSong() {
