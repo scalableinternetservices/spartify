@@ -16,7 +16,7 @@ import { forAwaitEach, isAsyncIterable } from 'iterall'
 import path from 'path'
 import 'reflect-metadata'
 import { checkEqual, Unpromise } from '../../common/src/util'
-import { deleteOldParties } from './background-process'
+import { expensiveFunction } from './background-process'
 import { Config } from './config'
 import { migrate } from './db/migrate'
 import { initORM } from './db/sql'
@@ -189,7 +189,6 @@ initORM()
   .catch(err => console.error(err))
 
 setInterval(() => {
-  deleteOldParties()
-    .then(() => console.log('Background process run succesfully.'))
-    .catch(err => console.error(err))
+  expensiveFunction()
+  console.log('Background process run succesfully.')
 }, Config.backgroundProcessInterval)
