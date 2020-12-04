@@ -2,6 +2,7 @@ import {
   BaseEntity,
   Column,
   Entity,
+  getRepository,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -83,40 +84,41 @@ export class Party extends BaseEntity {
     }
   }
 
+  public async getCurrentSong() {
+    return Song.findOne(this.currentSongId)
+  }
+
   private async playHighestVotedSong() {
     const highestVotedSong = await this.getHighestVotedSong()
 
     if (highestVotedSong) {
-      this.currentSongId = (await highestVotedSong.getSong()).id
-      await Promise.all([highestVotedSong.remove(), this.save()])
+      const newCurrentSongId = (await highestVotedSong.getSong()).id
+      await Promise.all([
+        highestVotedSong.remove(),
+        getRepository(Party)
+          .createQueryBuilder('party')
+          .update({ currentSongId: newCurrentSongId })
+          .where('id = :id', { id: this.id })
+          .execute(),
+      ])
     }
   }
 
   public async getSortedVotedSongs() {
-    const votedSongs = await this.votedSongs
-    const songs = await Promise.all(votedSongs.map(votedSong => votedSong.getSong()))
-    const zipped: [VotedSong, Song][] = votedSongs.map((votedSong, index) => {
-      return [votedSong, songs[index]]
-    })
-    zipped.sort(([votedSong1, song1], [votedSong2, song2]) => {
-      if (votedSong1.count != votedSong2.count) {
-        return votedSong2.count - votedSong1.count
-      }
-      if (song1.title < song2.title) {
-        return -1
-      }
-      return 0
-    })
-    return zipped.map(([votedSong, _song]) => votedSong)
+    return getRepository(VotedSong)
+      .createQueryBuilder('voted_song')
+      .innerJoinAndSelect('voted_song.song', 'song', 'voted_song.partyId = :partyId', { partyId: this.id })
+      .orderBy({ 'voted_song.count': 'DESC', 'song.title': 'ASC' })
+      .getMany()
   }
 
   private async getHighestVotedSong() {
-    // TODO: TypeORM can't sort by fields of eagerly joined rows. So we currently retrieve all VotedSong for the party
-    //   and then sort by song name and then sort by name among the VotedSong with the highest equivalent count and then
-    //   return the first VotedSong. Optimize this by using the TypeORM query builder to build an SQL query that can
-    //   JOIN and then order correctly to retrieve a single VotedSong rather than all VotedSong for the party.
-    const sortedVotedSongs = await this.getSortedVotedSongs()
-    return sortedVotedSongs[0]
+    return getRepository(VotedSong)
+      .createQueryBuilder('voted_song')
+      .innerJoinAndSelect('voted_song.song', 'song', 'voted_song.partyId = :partyId', { partyId: this.id })
+      .orderBy({ 'voted_song.count': 'DESC', 'song.title': 'ASC' })
+      .limit(1)
+      .getOne()
   }
 
   private async getNextSequenceNumber() {

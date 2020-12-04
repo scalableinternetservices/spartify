@@ -60,7 +60,7 @@ export const graphqlRoot: Resolvers<Context> = {
       return (await self.playedSongs) as any
     },
     currentSong: async self => {
-      return await self.currentSong
+      return (await self.getCurrentSong()) || null
     },
   },
   VotedSong: {
