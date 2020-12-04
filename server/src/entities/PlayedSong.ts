@@ -11,17 +11,33 @@ export class PlayedSong extends BaseEntity {
   @Column()
   sequenceNumber: number
 
-  @ManyToOne(() => Song, { eager: true, nullable: false })
-  song: Song
+  @ManyToOne(() => Song, { lazy: true, nullable: false })
+  song: Promise<Song>
 
-  @ManyToOne(() => Party, party => party.playedSongs, { nullable: false })
-  party: Party
+  @Column()
+  songId: number
+
+  @ManyToOne(() => Party, party => party.playedSongs, { nullable: false, lazy: true })
+  party: Promise<Party>
+
+  @Column()
+  partyId: number
 
   constructor(song: Song, party: Party, sequenceNumber: number) {
     super()
 
-    this.song = song
-    this.party = party
+    this.song = Promise.resolve(song)
+    this.party = Promise.resolve(party)
     this.sequenceNumber = sequenceNumber
+  }
+
+  // For some reason the Song or Party fields return Promise<undefined> (I think a TypeORM bug), so we need the following two methods.
+  // Piazza question: https://piazza.com/class/kfpm567u1e24eb?cid=123.
+  public async getParty() {
+    return Party.findOneOrFail(this.partyId)
+  }
+
+  public async getSong() {
+    return Song.findOneOrFail(this.songId)
   }
 }
