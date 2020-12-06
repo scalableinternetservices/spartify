@@ -28,32 +28,8 @@ export interface AllSongs {
 // GraphQL subscription operation: PartySubscription
 // ====================================================
 
-export interface PartySubscription_partyUpdates_currentSong {
-  __typename: "Song";
-  id: number;
-  title: string;
-  artist: string;
-  album: string | null;
-}
-
-export interface PartySubscription_partyUpdates_votedSongs_song {
-  __typename: "Song";
-  id: number;
-  title: string;
-  artist: string;
-  album: string | null;
-}
-
-export interface PartySubscription_partyUpdates_votedSongs {
-  __typename: "VotedSong";
-  id: number;
-  song: PartySubscription_partyUpdates_votedSongs_song;
-  count: number;
-}
-
 export interface PartySubscription_partyUpdates_playedSongs_song {
   __typename: "Song";
-  id: number;
   title: string;
   artist: string;
   album: string | null;
@@ -61,19 +37,15 @@ export interface PartySubscription_partyUpdates_playedSongs_song {
 
 export interface PartySubscription_partyUpdates_playedSongs {
   __typename: "PlayedSong";
-  id: number;
-  song: PartySubscription_partyUpdates_playedSongs_song;
   sequenceNumber: number;
+  song: PartySubscription_partyUpdates_playedSongs_song;
 }
 
 export interface PartySubscription_partyUpdates {
   __typename: "Party";
-  id: number;
   name: string;
+  id: number;
   password: string | null;
-  latestTime: string;
-  currentSong: PartySubscription_partyUpdates_currentSong | null;
-  votedSongs: PartySubscription_partyUpdates_votedSongs[] | null;
   playedSongs: PartySubscription_partyUpdates_playedSongs[] | null;
 }
 
