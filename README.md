@@ -45,7 +45,7 @@ which runs the command
 
 ### tsung
 
-First, [install tsung](http://tsung.erlang-projects.org/user_manual/installation.html). E.g. on Mac, run `brew install tsung`.
+First, [install tsung](http://tsung.erlang-projects.org/user_manual/installation.html). E.g. on Mac, run `brew install tsung` and then `sudo cpan Template` (why: [1](https://stackoverflow.com/questions/23912087/tsung-stats-pl-on-mac-os-x-mavericks-run-into-cant-locate-template-pm-error), [2](https://www.thegreatcodeadventure.com/load-testing-rails-5-action-cable-with-tsung/)).
 
 Then, be sure to run
 `docker-compose down`
@@ -60,6 +60,10 @@ which runs the command
 
 View metrics at
 `localhost:8091`
+
+Or if that's not working, then generate a static report (report.html, graph.html, images directory):
+`cd /Users/<username>/.tsung/log/<loadtest_time>`
+`/usr/local/lib/tsung/bin/tsung_stats.pl`
 
 # Class Starter Project README
 
