@@ -15,6 +15,15 @@ export interface Scalars {
   Float: number
 }
 
+export interface Subscription {
+  __typename?: 'Subscription'
+  partyUpdates?: Maybe<Party>
+}
+
+export interface SubscriptionPartyUpdatesArgs {
+  partyId: Scalars['Int']
+}
+
 export interface Query {
   __typename?: 'Query'
   party?: Maybe<Party>
@@ -159,10 +168,11 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  Subscription: ResolverTypeWrapper<{}>
+  Int: ResolverTypeWrapper<Scalars['Int']>
   Query: ResolverTypeWrapper<{}>
   String: ResolverTypeWrapper<Scalars['String']>
   Mutation: ResolverTypeWrapper<{}>
-  Int: ResolverTypeWrapper<Scalars['Int']>
   Party: ResolverTypeWrapper<PartyModel>
   VotedSong: ResolverTypeWrapper<VotedSongModel>
   PlayedSong: ResolverTypeWrapper<Omit<PlayedSong, 'party'> & { party: ResolversTypes['Party'] }>
@@ -172,15 +182,29 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+  Subscription: {}
+  Int: Scalars['Int']
   Query: {}
   String: Scalars['String']
   Mutation: {}
-  Int: Scalars['Int']
   Party: PartyModel
   VotedSong: VotedSongModel
   PlayedSong: Omit<PlayedSong, 'party'> & { party: ResolversParentTypes['Party'] }
   Song: Song
   Boolean: Scalars['Boolean']
+}
+
+export type SubscriptionResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']
+> = {
+  partyUpdates?: SubscriptionResolver<
+    Maybe<ResolversTypes['Party']>,
+    'partyUpdates',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionPartyUpdatesArgs, 'partyId'>
+  >
 }
 
 export type QueryResolvers<
@@ -263,6 +287,7 @@ export type SongResolvers<
 }
 
 export type Resolvers<ContextType = any> = {
+  Subscription?: SubscriptionResolvers<ContextType>
   Query?: QueryResolvers<ContextType>
   Mutation?: MutationResolvers<ContextType>
   Party?: PartyResolvers<ContextType>

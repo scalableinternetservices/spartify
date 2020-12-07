@@ -16,6 +16,7 @@ export function getSchema() {
 interface Context {
   request: Request
   response: Response
+  pubsub: PubSub
 }
 
 export const graphqlRoot: Resolvers<Context> = {
@@ -27,26 +28,42 @@ export const graphqlRoot: Resolvers<Context> = {
     songs: () => Song.find(),
   },
   Mutation: {
-    vote: async (_, { partyId, songId }) => {
+    vote: async (_, { partyId, songId }, context) => {
       const party = await Party.findOne(partyId)
       const song = await Song.findOne(songId)
 
       if (party && song) {
-        return party.voteForSong(song)
+        const votedSong = await party.voteForSong(song)
+        context.pubsub.publish(`PARTY_UPDATE_${partyId}`, party)
+        return votedSong
       } else {
         return null
       }
     },
-    createParty: async (_, { partyName, partyPassword }) => {
+    createParty: async (_, { partyName, partyPassword }, context) => {
       const party = await new Party(partyName, partyPassword || undefined).save()
       await party.reload() // We have to reload() because save() doesn't return the entire Party object.
+
+      context.pubsub.publish(`PARTY_UPDATE_${party.id}`, party)
+
       return party
     },
-    nextSong: async (_, { partyId }) => {
+    nextSong: async (_, { partyId }, context) => {
       const party = await Party.findOne(partyId)
       await party?.playNextSong()
       await party?.reload()
+
+      if (party) {
+        context.pubsub.publish(`PARTY_UPDATE_${partyId}`, party)
+      }
+
       return party || null
+    },
+  },
+  Subscription: {
+    partyUpdates: {
+      subscribe: (_, { partyId }, context) => context.pubsub.asyncIterator(`PARTY_UPDATE_${partyId}`),
+      resolve: (payload: any) => payload,
     },
   },
   // Rely on the resolver chain and async/partial resolution to perform the data conversion necessary for the API.
