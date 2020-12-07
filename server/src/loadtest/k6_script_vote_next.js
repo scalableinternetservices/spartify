@@ -39,8 +39,8 @@ const partyID = 1 // Assume the partyID since the db migration ensures that the 
 // Use some random song
 const songID = 13
 
-function fetchParty() {
-  // Fetch Party: Form the post request
+function vote_song_helper() {
+  // Vote: Form the post request
   var urlFetch = 'http://localhost:3000/graphql?opName=VoteSong'
   var payloadFetch = JSON.stringify({
     operationName: 'VoteSong',
@@ -54,29 +54,13 @@ function fetchParty() {
     },
   }
 
-  // Fetch Party: Make the post request
+  // Vote: Make the post request
   http.post(urlFetch, payloadFetch, paramsFetch)
 }
 
 export function vote_song() {
-  // Vote: Form the post request
-  var urlVote = 'http://localhost:3000/graphql?opName=VoteSong'
-  var payloadVote = JSON.stringify({
-    operationName: 'VoteSong',
-    variables: { partyId: partyID, songId: songID },
-    query:
-      'mutation VoteSong($partyId: Int!, $songId: Int!) {  vote(partyId: $partyId, songId: $songId) {    id    __typename  }}',
-  })
-  var paramsVote = {
-    headers: {
-      'content-type': 'application/json',
-    },
-  }
-
-  // Vote: Make the post request
-  http.post(urlVote, payloadVote, paramsVote)
-
-  fetchParty()
+  vote_song_helper()
+  vote_song_helper()
 
   sleep(0.1)
 }
@@ -98,7 +82,7 @@ export function next_song() {
   // Next: Make the post request
   http.post(urlVote, payloadVote, paramsVote)
 
-  fetchParty()
+  vote_song_helper()
 
   sleep(0.1)
 }
