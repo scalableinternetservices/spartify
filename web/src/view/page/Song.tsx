@@ -50,7 +50,7 @@ const useStyles = makeStyles({
 
 export function Song(props: SongProps) {
   const classes = useStyles()
-  //const [refresh, setRefresh] = useState(0)
+  // const [refresh, setRefresh] = useState(0)
   const [addVote] = useMutation<VoteSong, VoteSongVariables>(voteSongMutation, {
     // onCompleted: props.refetchQuery,
     onError: err => console.log(`voteSongMutation error: \n${err}`),

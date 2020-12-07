@@ -61,19 +61,13 @@ export const fragmentParty = gql`
 export const subscribeParty = gql`
   subscription PartySubscription($partyId: Int!) {
     partyUpdates(partyId: $partyId) {
-      name
-      id
-      password
-      playedSongs {
-        sequenceNumber
-        song {
-          title
-          artist
-          album
-        }
-      }
+      ...Party
     }
   }
+  ${fragmentParty}
+  ${fragmentSong}
+  ${fragmentVotedSong}
+  ${fragmentPlayedSong}
 `
 
 export const fetchParty = gql`

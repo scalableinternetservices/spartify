@@ -2,12 +2,14 @@ import { useQuery, useSubscription } from '@apollo/client'
 import { Grid, GridList, makeStyles, Paper } from '@material-ui/core'
 import GridListTile from '@material-ui/core/GridListTile/GridListTile'
 import * as React from 'react'
+import { useState } from 'react'
 import { FetchParty, FetchPartyVariables, PartySubscription, PartySubscriptionVariables } from '../../graphql/query.gen'
 import { CurrentSong } from './CurrentSong'
 import { allSongs, fetchParty, subscribeParty } from './fetchParty'
 import { PlayedSong } from './PlayedSong'
 import { Song } from './Song'
 import { VotedSong } from './VotedSong'
+
 interface PartyPageProps {
   partyName: string
   partyPassword: string
@@ -69,10 +71,43 @@ export function PartyPage(props: PartyPageProps) {
   const classes = useStyles()
   const { loading: partyLoading, data: partyInfo } = useQuery<FetchParty, FetchPartyVariables>(fetchParty, {
     variables: { partyName: props.partyName, partyPassword: props.partyPassword },
-    pollInterval: 100,
   })
-
+  const [votedSongs, setVotedSongs] = useState(partyInfo?.party?.votedSongs)
+  const [playedSongs, setPlayedSongs] = useState(partyInfo?.party?.playedSongs)
+  const [currentSong, setCurrentSong] = useState(partyInfo?.party?.currentSong)
   const { loading: songLoading, data: songs } = useQuery(allSongs)
+  const partyId = partyInfo?.party?.id === null ? 0 : partyInfo?.party?.id
+  if (!partyId) { return <div></div> }
+
+  const sub = useSubscription<PartySubscription, PartySubscriptionVariables>(subscribeParty, {
+    variables: { partyId },
+  })
+  React.useEffect(() => {
+    if (sub.data?.partyUpdates) {
+      console.log(sub.data)
+      setVotedSongs(sub.data.partyUpdates.votedSongs)
+      setPlayedSongs(sub.data.partyUpdates.playedSongs)
+      setCurrentSong(sub.data?.partyUpdates.currentSong)
+      // votedSongs = sub.data.partyUpdates.votedSongs
+      // playedSongs = sub.data.partyUpdates.playedSongs
+      // currentSong = sub.data?.partyUpdates.currentSong
+      // console.log(votedSongs, playedSongs, currentSong)
+    }
+  }, [sub.data])
+
+  if (!partyInfo?.party) {
+    return <div>This party does not exist</div>
+  }
+
+  if (!songs?.songs) {
+    return <div>No songs retrieved</div>
+  }
+
+  // const { votedSongs, playedSongs, currentSong } = partyInfo?.party
+  const votedSongList = votedSongs === null || votedSongs === undefined ? [] : createVoteList(votedSongs)
+  // playedSongList still needs to be updated
+  const playedSongList = playedSongs === null || playedSongs === undefined ? [] : createSongList(playedSongs)
+  const songList = songs.songs === null ? [] : createSongList(songs.songs)
 
   if (partyLoading) {
     return <div>Loading...</div>
@@ -81,49 +116,6 @@ export function PartyPage(props: PartyPageProps) {
   if (songLoading) {
     return <div>Loading...</div>
   }
-
-  if (!songs?.songs) {
-    return <div>No songs retrieved</div>
-  }
-
-  if (!partyInfo?.party) {
-    return <div>This party does not exist</div>
-  }
-
-  console.log(partyInfo)
-  console.log(partyLoading)
-
-  const { votedSongs, playedSongs, currentSong } = partyInfo.party
-  // const votedSongList = [{ title: 'title', artist: 'artist', album: 'album', count: 5 }]
-  // const playedSongList = [{ title: 'title', artist: 'artist', album: 'album', id: 5 }]
-  // const songList = [{ title: 'title', artist: 'artist', album: 'album', id: 5 }]
-  // const partyId = 0
-
-  const votedSongList = votedSongs === null ? [] : createVoteList(votedSongs)
-  const playedSongList = playedSongs === null ? [] : createSongList(playedSongs)
-  const songList = songs.songs === null ? [] : createSongList(songs.songs)
-  const partyId = partyInfo.party.id === null ? 0 : partyInfo.party.id
-  console.log('played', playedSongs)
-  console.log('playedlist', playedSongList)
-
-  const { loading: partyLoading2, data: partyInfo2 } = useSubscription<PartySubscription, PartySubscriptionVariables>(
-    subscribeParty,
-    {
-      variables: { partyId },
-    }
-  )
-
-  if (partyLoading2) {
-    return <div>Loading...</div>
-  }
-
-  if (!partyInfo2) {
-    return <div>This party does not exist</div>
-  }
-
-  console.log('loading2', partyLoading2)
-
-  console.log('partyInfo2', partyInfo2)
 
   // Song Library column - displays all available songs to vote for
   const library = (

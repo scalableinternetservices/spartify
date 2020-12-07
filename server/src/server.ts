@@ -16,7 +16,6 @@ import { forAwaitEach, isAsyncIterable } from 'iterall'
 import path from 'path'
 import 'reflect-metadata'
 import { checkEqual, Unpromise } from '../../common/src/util'
-import { expensiveFunction } from './background-process'
 import { Config } from './config'
 import { migrate } from './db/migrate'
 import { initORM } from './db/sql'
@@ -46,7 +45,7 @@ server.express.get('/', (req, res) => {
 
 server.express.get('/app/*', (req, res) => {
   console.log('GET /app')
-  renderApp(req, res, server.executableSchema)
+  renderApp(req, res)
 })
 
 server.express.get(
@@ -187,11 +186,3 @@ initORM()
     )
   )
   .catch(err => console.error(err))
-
-// We use this flag so we can choose whether we want the background process running on the Node thread.
-if (Config.runBackgroundProcess) {
-  setInterval(() => {
-    expensiveFunction()
-    console.log('Background process run succesfully.')
-  }, Config.backgroundProcessInterval)
-}
