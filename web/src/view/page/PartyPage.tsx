@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { Grid, GridList, makeStyles, Paper } from '@material-ui/core'
 import GridListTile from '@material-ui/core/GridListTile/GridListTile'
+import { useLocation } from '@reach/router'
 import * as React from 'react'
 import { FetchParty, FetchPartyVariables } from '../../graphql/query.gen'
 import { CurrentSong } from './CurrentSong'
@@ -83,8 +84,20 @@ const useStyles = makeStyles({
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function PartyPage(props: PartyPageProps) {
   const classes = useStyles()
+  const [partyName, setPartyName] = React.useState("");
+  const [partyPassword, setPartyPassword] = React.useState("")
+  const location = useLocation()
+  React.useEffect(() => {
+    const [, temp] = (location.search || '').split('?partyName=')
+    const [name, password] = temp.split('?partyPassword=')
+    setPartyName(name)
+    setPartyPassword(password)
+  }, [location]);
+
+  console.log(partyName, partyPassword)
+
   const { loading: partyLoading, data: partyInfo, refetch } = useQuery<FetchParty, FetchPartyVariables>(fetchParty, {
-    variables: { partyName: props.partyName, partyPassword: props.partyPassword },
+    variables: { partyName: partyName, partyPassword: partyPassword },
     pollInterval: 100,
   })
 
@@ -169,7 +182,7 @@ export function PartyPage(props: PartyPageProps) {
         <Grid container style={{ paddingBottom: 40 }}>
           {/* Party Name */}
           <Grid item xs={12} md={8} className={classes.partyName} style={{ paddingTop: 20 }}>
-            {props.partyName}
+            {partyName}
           </Grid>
 
           {/* Current Playing Song */}

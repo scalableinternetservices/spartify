@@ -14,6 +14,11 @@ export enum PlaygroundApp {
   LOGIN = 'login',
 }
 
+export function getPartyPath(partyName?: string, partyPassword?: string) {
+  const path = getPath(Route.PARTY)
+  return path + (partyName ? `?partyName=${partyName}` : '') + (partyPassword ? `?partyPassword=${partyPassword}` : '')
+}
+
 /**
  * Example: getPath(ROUTES.TASK) returns "/leasing/tasks" while getPath(ROUTES.TASK, {taskId: 5}) returns "leasing/tasks/task/5".
  *
