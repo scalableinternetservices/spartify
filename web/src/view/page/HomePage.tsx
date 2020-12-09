@@ -6,7 +6,7 @@ import * as React from 'react'
 import { useState } from 'react'
 import { getApolloClient } from '../../graphql/apolloClient'
 import { FetchParty, FetchPartyVariables } from '../../graphql/query.gen'
-import { getPath, Route } from '../nav/route'
+import { getPartyPath } from '../nav/route'
 import { handleError } from '../toast/error'
 import { fetchParty } from './fetchParty'
 import { createParty } from './mutateParty'
@@ -105,7 +105,8 @@ export function HomePage(props: HomePageProps) {
     // Create and join a new party
     createParty(getApolloClient(), name, password)
       .then(() => {
-        void navigate(getPath(Route.PARTY))
+        // void navigate(getPath(Route.PARTY))
+        void navigate(getPartyPath(name, password))
       })
       .catch(err => {
         handleError(err)
@@ -130,7 +131,8 @@ export function HomePage(props: HomePageProps) {
       if (!data?.party) {
         setError({ createError: false, joinError: true })
       } else {
-        void navigate(getPath(Route.PARTY))
+        // void navigate(getPath(Route.PARTY))
+        void navigate(getPartyPath(name, password))
       }
     }
   }
