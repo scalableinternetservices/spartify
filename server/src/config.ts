@@ -25,4 +25,6 @@ export const Config = {
   backgroundService: isServiceEnabled(AppService.BACKGROUND) ? true : !isProd(),
   wsUrl: process.env.WS_URL || 'ws://localhost:3000/graphqlsubscription',
   adminPassword: process.env.ADMIN_PASSWORD || 'password',
+  backgroundProcessInterval: 100, // In milliseconds.
+  runBackgroundProcess: false,
 }

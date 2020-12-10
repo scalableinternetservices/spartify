@@ -10,7 +10,7 @@ interface SongProps {
   album: string
   id: number
   partyId: number
-  refetchQuery: () => void
+  // refetchQuery: () => void
 }
 
 // custom styling to override Material UI's default styles
@@ -52,7 +52,7 @@ export function Song(props: SongProps) {
   const classes = useStyles()
   //const [refresh, setRefresh] = useState(0)
   const [addVote] = useMutation<VoteSong, VoteSongVariables>(voteSongMutation, {
-    onCompleted: props.refetchQuery,
+    // onCompleted: props.refetchQuery,
     onError: err => console.log(`voteSongMutation error: \n${err}`),
   })
 

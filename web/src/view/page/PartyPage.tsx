@@ -1,10 +1,10 @@
-import { useQuery } from '@apollo/client'
+import { useQuery, useSubscription } from '@apollo/client'
 import { Grid, GridList, makeStyles, Paper } from '@material-ui/core'
 import GridListTile from '@material-ui/core/GridListTile/GridListTile'
 import * as React from 'react'
-import { FetchParty, FetchPartyVariables } from '../../graphql/query.gen'
+import { FetchParty, FetchPartyVariables, PartySubscription, PartySubscriptionVariables } from '../../graphql/query.gen'
 import { CurrentSong } from './CurrentSong'
-import { allSongs, fetchParty } from './fetchParty'
+import { allSongs, fetchParty, subscribeParty } from './fetchParty'
 import { PlayedSong } from './PlayedSong'
 import { Song } from './Song'
 import { VotedSong } from './VotedSong'
@@ -39,6 +39,21 @@ function createVoteList(songArr: Array<any>) {
   })
 }
 
+// Creates a list of played songs
+function createPlayedList(songArr: Array<any>) {
+  return new Array<any>()
+    .concat(songArr)
+    .reverse()
+    .map((song: any) => {
+      return {
+        title: song.song.title,
+        artist: song.song.artist,
+        album: song.song.album,
+        id: song.song.id,
+      }
+    })
+}
+
 // custom styling to override Material UI's default styles
 const useStyles = makeStyles({
   partyName: {
@@ -68,11 +83,42 @@ const useStyles = makeStyles({
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function PartyPage(props: PartyPageProps) {
   const classes = useStyles()
-  const { loading: partyLoading, data: partyInfo, refetch } = useQuery<FetchParty, FetchPartyVariables>(fetchParty, {
+  const { loading: partyLoading, data: partyInfo } = useQuery<FetchParty, FetchPartyVariables>(fetchParty, {
     variables: { partyName: props.partyName, partyPassword: props.partyPassword },
   })
-
+  const [votedSongs, setVotedSongs] = React.useState(partyInfo?.party?.votedSongs)
+  const [playedSongs, setPlayedSongs] = React.useState(partyInfo?.party?.playedSongs)
+  const [currentSong, setCurrentSong] = React.useState(partyInfo?.party?.currentSong)
   const { loading: songLoading, data: songs } = useQuery(allSongs)
+  const partyId = partyInfo?.party?.id === null ? 0 : partyInfo?.party?.id
+  if (!partyId) { return <div></div> }
+
+  const sub = useSubscription<PartySubscription, PartySubscriptionVariables>(subscribeParty, {
+    variables: { partyId },
+  })
+  React.useEffect(() => {
+    if (sub.data?.partyUpdates) {
+      console.log(sub.data)
+      setVotedSongs(sub.data.partyUpdates.votedSongs)
+      setPlayedSongs(sub.data.partyUpdates.playedSongs)
+      setCurrentSong(sub.data?.partyUpdates.currentSong)
+    }
+  }, [sub.data])
+
+  if (!partyInfo?.party) {
+    return <div>This party does not exist</div>
+  }
+
+  if (!songs?.songs) {
+    return <div>No songs retrieved</div>
+  }
+
+  // const { votedSongs, playedSongs, currentSong } = partyInfo?.party
+  const votedSongList = votedSongs === null || votedSongs === undefined ? [] : createVoteList(votedSongs)
+  // playedSongList still needs to be updated
+  const playedSongList = playedSongs === null || playedSongs === undefined ? [] : createPlayedList(playedSongs)
+  const songList = songs.songs === null ? [] : createSongList(songs.songs)
+
   if (partyLoading) {
     return <div>Loading...</div>
   }
@@ -80,23 +126,6 @@ export function PartyPage(props: PartyPageProps) {
   if (songLoading) {
     return <div>Loading...</div>
   }
-
-  if (!songs?.songs) {
-    return <div>No songs retrieved</div>
-  }
-
-  if (!partyInfo?.party) {
-    return <div>This party does not exist</div>
-  }
-
-  console.log('songs', songs)
-  console.log('partyInfo', partyInfo)
-  const { votedSongs, playedSongs, currentSong } = partyInfo.party
-  const votedSongList = votedSongs === null ? [] : createVoteList(votedSongs)
-  // playedSongList still needs to be updated
-  const playedSongList = playedSongs === null ? [] : createSongList(playedSongs)
-  const songList = songs.songs === null ? [] : createSongList(songs.songs)
-  const partyId = partyInfo.party.id === null ? 0 : partyInfo.party.id
 
   // Song Library column - displays all available songs to vote for
   const library = (
@@ -112,7 +141,7 @@ export function PartyPage(props: PartyPageProps) {
               artist={song.artist}
               album={song.album}
               id={song.id}
-              refetchQuery={refetch}
+              // refetchQuery={refetch}
             />
           </GridListTile>
         ))}
@@ -167,7 +196,7 @@ export function PartyPage(props: PartyPageProps) {
               artist={currentSong?.artist || ''}
               album={currentSong?.album || ''}
               partyId={partyId}
-              refetchQuery={refetch}
+              // refetchQuery={refetch}
             />
           </Grid>
         </Grid>

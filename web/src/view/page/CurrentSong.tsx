@@ -10,7 +10,7 @@ interface CurrentSongProps {
   artist: string
   album: string
   partyId: number
-  refetchQuery: () => void
+  // refetchQuery: () => void
 }
 
 // custom styling to override Material UI's default styles
@@ -50,7 +50,7 @@ const useStyles = makeStyles({
 export function CurrentSong(props: CurrentSongProps) {
   const classes = useStyles()
   const [addNext] = useMutation<NextSong, NextSongVariables>(nextSongMutation, {
-    onCompleted: props.refetchQuery,
+    // onCompleted: props.refetchQuery,
     onError: err => console.log(`nextSongMutation error: \n${err}`),
   })
   function nextSong() {

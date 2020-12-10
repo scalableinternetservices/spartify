@@ -3,6 +3,8 @@ import { Party as PartyModel } from '../entities/Party'
 import { VotedSong as VotedSongModel } from '../entities/VotedSong'
 export type Maybe<T> = T | null
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] }
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> }
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> }
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } &
   { [P in K]-?: NonNullable<T[P]> }
@@ -13,6 +15,15 @@ export interface Scalars {
   Boolean: boolean
   Int: number
   Float: number
+}
+
+export interface Subscription {
+  __typename?: 'Subscription'
+  partyUpdates?: Maybe<Party>
+}
+
+export interface SubscriptionPartyUpdatesArgs {
+  partyId: Scalars['Int']
 }
 
 export interface Query {
@@ -159,10 +170,11 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  Subscription: ResolverTypeWrapper<{}>
+  Int: ResolverTypeWrapper<Scalars['Int']>
   Query: ResolverTypeWrapper<{}>
   String: ResolverTypeWrapper<Scalars['String']>
   Mutation: ResolverTypeWrapper<{}>
-  Int: ResolverTypeWrapper<Scalars['Int']>
   Party: ResolverTypeWrapper<PartyModel>
   VotedSong: ResolverTypeWrapper<VotedSongModel>
   PlayedSong: ResolverTypeWrapper<Omit<PlayedSong, 'party'> & { party: ResolversTypes['Party'] }>
@@ -172,15 +184,29 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+  Subscription: {}
+  Int: Scalars['Int']
   Query: {}
   String: Scalars['String']
   Mutation: {}
-  Int: Scalars['Int']
   Party: PartyModel
   VotedSong: VotedSongModel
   PlayedSong: Omit<PlayedSong, 'party'> & { party: ResolversParentTypes['Party'] }
   Song: Song
   Boolean: Scalars['Boolean']
+}
+
+export type SubscriptionResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']
+> = {
+  partyUpdates?: SubscriptionResolver<
+    Maybe<ResolversTypes['Party']>,
+    'partyUpdates',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionPartyUpdatesArgs, 'partyId'>
+  >
 }
 
 export type QueryResolvers<
@@ -226,7 +252,7 @@ export type PartyResolvers<
   currentSong?: Resolver<Maybe<ResolversTypes['Song']>, ParentType, ContextType>
   votedSongs?: Resolver<Maybe<Array<ResolversTypes['VotedSong']>>, ParentType, ContextType>
   playedSongs?: Resolver<Maybe<Array<ResolversTypes['PlayedSong']>>, ParentType, ContextType>
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
 export type VotedSongResolvers<
@@ -237,7 +263,7 @@ export type VotedSongResolvers<
   party?: Resolver<ResolversTypes['Party'], ParentType, ContextType>
   song?: Resolver<ResolversTypes['Song'], ParentType, ContextType>
   count?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
 export type PlayedSongResolvers<
@@ -248,7 +274,7 @@ export type PlayedSongResolvers<
   party?: Resolver<ResolversTypes['Party'], ParentType, ContextType>
   song?: Resolver<ResolversTypes['Song'], ParentType, ContextType>
   sequenceNumber?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
 export type SongResolvers<
@@ -259,10 +285,11 @@ export type SongResolvers<
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   artist?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   album?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
 export type Resolvers<ContextType = any> = {
+  Subscription?: SubscriptionResolvers<ContextType>
   Query?: QueryResolvers<ContextType>
   Mutation?: MutationResolvers<ContextType>
   Party?: PartyResolvers<ContextType>
