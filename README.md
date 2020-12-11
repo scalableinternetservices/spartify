@@ -13,7 +13,7 @@ Spartify is a crowd-voting app that allows users to create and join a party to v
 
 We will use k6 primarily and tsung secondarily, and we'll ignore this project's `server/src/loadtest/runner.ts` and `server/src/loadtest/userScript.ts`.
 
-For any scaling optimization changes, we need to load test with k6 and tsung before and after each change to generate data for our final paper and presentation. The data will be output in the console by the load testing tool and in [Spartify's Honeycomb](https://ui.honeycomb.io/spartify/datasets/bespin).
+For any scaling optimization changes, we need to load test with k6 and tsung before and after each change to generate data for our final paper and presentation. The data will be output in the console by the load testing tool and in [Spartify's Honeycomb](https://ui.honeycomb.io/spartify/datasets/spartify).
 
 The load tests will presumably differ based on the local machine it's being run on, so we'll probably have to just keep track of the last commit for each change and run all the load testing once we're done making the scaling optimization changes.
 Put the load test data results in this [Google Doc](https://docs.google.com/document/d/1HhjBHxyCX8krW-1vsyV2l2RzJ0PhOfAvM1HfF5yqkig/edit).
@@ -69,7 +69,7 @@ Or if that's not working, then generate a static report (report.html, graph.html
 
 ## Dependencies
 
-For the [Quickstart](https://github.com/rothfels/bespin#Quickstart), you will need:
+For the [Quickstart](https://github.com/rothfels/spartify#Quickstart), you will need:
 
 - [Node.js 12.x](https://nodejs.org/en/download/)
 - [Docker](https://docs.docker.com/get-docker/)
@@ -93,7 +93,7 @@ nvm alias default 12
 
 ## Quickstart
 
-First, install [the Quickstart dependencies](https://github.com/rothfels/bespin#Dependencies).
+First, install [the Quickstart dependencies](https://github.com/rothfels/spartify#Dependencies).
 
 ### Choose your team slug
 
@@ -101,7 +101,7 @@ Choose a short, alphanumeric [*slug*](https://en.wikipedia.org/wiki/Clean_URL#Sl
 
 ### Get the starter project
 
-Clone and initialize the starter project. You'll need to have `node` and `npm` installed first. See [dependencies](https://github.com/rothfels/bespin#dependencies).
+Clone and initialize the starter project. You'll need to have `node` and `npm` installed first. See [dependencies](https://github.com/rothfels/spartify#dependencies).
 
 ```
 source <(curl -s https://cs188.cloudcity.computer/app/script/init-project.sh)
@@ -112,10 +112,10 @@ This will create a directory with the name of your project slug and install the 
 If you run into an error sourcing the init script above, you may run the steps manually:
 
 ```
-git clone https://github.com/rothfels/bespin.git <your project slug>
+git clone https://github.com/rothfels/spartify.git <your project slug>
 cd <your project slug>
 rm -rf .git
-<find/replace "bespin" with your project slug>
+<find/replace "spartify" with your project slug>
 git init
 npm install
 ```
