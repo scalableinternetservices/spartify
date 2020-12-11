@@ -83,20 +83,24 @@ export class Party extends BaseEntity {
   }
 
   private async removeCurrentSong() {
-    const currentSong = await this.currentSong
+    const currentSong = await this.getCurrentSong()
 
     if (currentSong) {
-      const newPlayedSong = new PlayedSong(currentSong, this, await this.getNextSequenceNumber())
+      const newPlayedSong = new PlayedSong(currentSong, this.id, await this.getNextSequenceNumber())
       this.currentSong = Promise.resolve(null)
-      const playedSongs = await this.playedSongs
-      playedSongs.push(newPlayedSong)
-      this.playedSongs = Promise.resolve(playedSongs)
-      await Promise.all([newPlayedSong.save(), this.save()])
+      await Promise.all([
+        newPlayedSong.save(),
+        getRepository(Party)
+          .createQueryBuilder('party')
+          .update({ currentSongId: undefined })
+          .where('id = :id', { id: this.id })
+          .execute(),
+      ])
     }
   }
 
   public async getCurrentSong() {
-    return Song.findOne(this.currentSongId)
+    return Song.findOne({ id: this.currentSongId })
   }
 
   private async playHighestVotedSong() {
@@ -133,7 +137,7 @@ export class Party extends BaseEntity {
   }
 
   private async getNextSequenceNumber() {
-    const latestSong = await PlayedSong.findOne({ where: { party: this }, order: { sequenceNumber: 'DESC' } })
+    const latestSong = await PlayedSong.findOne({ where: { partyId: this.id }, order: { sequenceNumber: 'DESC' } })
     return latestSong ? latestSong.sequenceNumber + 1 : 0
   }
 }

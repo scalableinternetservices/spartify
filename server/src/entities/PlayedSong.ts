@@ -23,11 +23,11 @@ export class PlayedSong extends BaseEntity {
   @Column()
   partyId: number
 
-  constructor(song: Song, party: Party, sequenceNumber: number) {
+  constructor(song: Song, partyId: number, sequenceNumber: number) {
     super()
 
     this.song = Promise.resolve(song)
-    this.party = Promise.resolve(party)
+    this.partyId = partyId
     this.sequenceNumber = sequenceNumber
   }
 
